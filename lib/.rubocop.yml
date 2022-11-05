@@ -1,0 +1,24 @@
+require:
+ - rubocop-rake
+ - rubocop-rspec
+
+Gemspec/RequiredRubyVersion:
+  Enabled: false
+
+Layout/IndentationWidth:
+  Enabled: false
+
+Style/HashSyntax:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
+
+Layout/CommentIndentation:
+  Enabled: false
+
+Style/BlockComments:
+  Enabled: false
+
+AllCops:
+  NewCops: enable

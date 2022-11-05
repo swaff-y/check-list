@@ -1,0 +1,174 @@
+{
+  "categories":[
+    {
+      "name":"matchers",
+      "categories":[
+        {
+          "name":"all_matcher",
+          "example":"## all_matcher ##\n    RSpec.describe \"all matcher\" do\n        it \"allows for aggregate checks\" do\n            # [3,5,7].each do |val|\n            #     expect(val).to be_odd\n            # end\n\n            expect([3,5,7]).to all(be_odd)\n            expect([3,5,7]).to all(be < 10)\n        end\n\n        describe [3,5,7] do\n            it { is_expected.to all(be_odd) }\n            it { is_expected.to all(be < 10) }\n        end\n    end",
+          "keywords":["all"]
+        },
+        {
+          "name":"be_matchers",
+          "example":"## be_matchers ##\n    RSpec.describe \"bd matcher\" do\n        it \"it can test for truthiness\" do\n            expect(true).to be_truthy\n            expect([3,5,7]).to be_truthy\n        end\n        it \"it can test for falsiness\" do\n            expect(false).to be_falsy\n            expect(nil).to be_falsy\n        end\n        it \"it can test for nil\" do\n            expect(nil).to be_nil\n        end\n    end",
+          "keywords":["be_truthy", "be_falsy", "be_nil"]
+        },
+        {
+          "name":"change_matcher",
+          "example":"## change_matcher ##\n    RSpec.describe \"change matcher\" do\n        subject { [ 1,2,3 ] }\n\n        it \"checks that a method chnges object state\" do\n            expect { subject.push(4) }.to change { subject.length }.from(3).to(4)\n            expect { subject.push(4) }.to change { subject.length }.by 1\n        end\n        it \"accepts negative arguments\" do\n            expect { subject.pop }.to change { subject.length }.from(3).to(2)\n            expect { subject.pop }.to change { subject.length }.by -1\n        end\n    end",
+          "keywords":["change"]
+        },
+        {
+          "name":"comparison_matchers",
+          "example":"## comparison_matchers ##\n    RSpec.describe \"comparison matchers\" do\n        it \"allows for comparison with built-in ruby operators\"  do\n            expect(10).to be > 5\n            expect(8).to be < 15\n            expect(10).to be >= 5\n        end\n\n        context 100 do\n            it { is_expected.to be > 90 }\n        end\n    end",
+          "keywords":[">", "<", ">=", "<=", "=="]
+        },
+        {
+          "name":"contain_exactly_matcher",
+          "example":"## contain_exactly_matcher ##\n    RSpec.describe \"contain_exactly matcher\" do\n        subject{ [1,2,3,4] }\n\n        context \"long for syntax\" do\n            it \"Should check for the presence of all elements\" do\n                expect(subject).to contain_exactly(1,2,4,3)\n            end\n        end\n\n        it { is_expected.to contain_exactly(3,2,1,4) }\n    end",
+          "keywords":["contain_exactly"]
+        },
+        {
+          "name":"equality_matchers",
+          "example":"## equality_matchers ##\n    RSpec.describe \"equality matchers\" do\n        let(:a) { 3.0 }\n        let(:b) { 3 }\n\n        describe \"eq matcher \" do\n            it \"testes for value and ignores type\" do\n                expect(a).to eq 3\n                expect(b).to eq 3.0\n                expect(a).to eq b\n            end\n        end\n        describe \"eql matcher\" do\n            it \"testes for value including same type\" do\n                expect(a).not_to eql 3\n                expect(b).not_to eql 3.0\n                expect(a).not_to eql b\n            end\n        end\n        describe \"equal and be matcher\" do\n            let(:c) { [ 1,2,3 ] }\n            let(:d) { [ 1,2,3 ] }\n            let(:e) { c }\n\n            it \"it cares about object identity\" do\n                expect(c).to eql d\n                expect(c).to eql d\n\n                expect(c).to equal e\n                expect(c).to be e\n\n                expect(c).not_to equal d\n            end\n        end\n    end",
+          "keywords":["eq","eql","be", "equal"]
+        },
+        {
+          "name":"have_attributes_matcher",
+          "example":"## have_attributes_matcher ##\n    class ProfessionalWrestler\n        attr_reader :name, :finishing_move\n        def initialize(name, finishing_move)\n                @name = name\n                @finishing_move = finishing_move\n        end\n    end\n    RSpec.describe \"have_attributes matcher\" do\n        describe ProfessionalWrestler.new(\"Steve Austen\", \"Stunner\") do\n            it \"checks for object attributes and proper values\" do\n                expect(subject).to have_attributes name: \"Steve Austen\", finishing_move: \"Stunner\"\n            end\n        end\n    end",
+          "keywords":["have_attributes"]
+        },
+        {
+          "name":"include_matcher",
+          "example":"## include_matcher ##\n    RSpec.describe \"include matcher\" do\n        context \"Hot chocolate\" do\n            it \"checks for sub string inclusion\" do\n                expect(subject).to include \"Hot\"\n                expect(subject).to include \"choc\"\n                expect(subject).to include \"late\"\n            end\n            it { is_expected.to include \"choc\" }\n        end\n        context [ 1,2,3,4 ] do\n            it \"checks for  inclusion in the array, regardless of order\" do\n                expect(subject).to include 3 , 1\n                expect(subject).to include 2\n                expect(subject).to include 1\n            end\n            it { is_expected.to include 3 }\n        end\n        context ({ :a => \"A\", :b => \"Red\" , :c => \"Monkey\" }) do\n            it \"can check for a key existance\" do\n                expect(subject).to include :a\n                expect(subject).to include :a, :b\n                expect(subject).to include :b, :c\n            end\n            it \"can check for a key-value pair\" do\n                expect(subject).to include :a => \"A\"\n                expect(subject).to include :a => \"A\", :b => \"Red\"\n                expect(subject).to include c: \"Monkey\"\n            end\n            it { is_expected.to include :c => \"Monkey\" }\n        end\n    end",
+          "keywords":["include"]
+        },
+        {
+          "name":"predicate_matchers",
+          "example":"## predicate_matchers ##\n    # predicate matchers return true or false\n    # puts 0.zero? #true\n    # puts [].empty?\n\n    RSpec.describe \"Predicate matchers\" do\n        it \"can be tested with Ruby methods\" do\n            result = 16 / 2\n            expect(result.even?).to eq true\n        end\n        #any predicate method has a rspec matcher\n        it \"can be tested with predicate matchers\" do\n            expect(16 / 2).to be_even\n        end\n        context 0 do\n            it { is_expected.to be_zero}\n        end\n    end",
+          "keywords":["be_even","be_zero"]
+        },
+        {
+          "name":"satisfy_matcher",
+          "example":"## statisfy_matcher ##\n    RSpec.describe \"satisfy_matcher\" do\n        # subject{\"racecar\"}\n        subject{\"racecars\"}\n\n        it 'is a palendrome' do\n            expect(subject).to satisfy { |value| value == value.reverse }\n        end\n        it 'is can expect a custom error message' do\n            expect(subject).to satisfy(\"be a palendrome\") do |value|\n                value == value.reverse\n            end\n        end\n    end",
+          "keywords":["satisfy"]
+        }
+      ]
+    },
+    {
+      "name":"doubles",
+      "categories":[
+        {
+          "name":"doubles",
+          "example":"## doubles ##\n    RSpec.describe \"a random double\" do\n        it \"only allows defined methods to be invoked\" do\n            # stuntman = double(\"Mr. Danger\", fall_off_ladder: \"Ouch\", light_on_fire: true)\n            # expect(stuntman.fall_off_ladder).to eq \"Ouch\"\n\n            # stuntman = double(\"Mr. Danger\")\n            # allow(stuntman).to receive(:fall_off_ladder).and_return \"Ouch\"\n            # expect(stuntman.fall_off_ladder).to eq \"Ouch\"\n\n            stuntman = double(\"Mr. Danger\")\n            allow(stuntman).to receive_messages fall_off_ladder: \"Ouch\", light_on_fire: true\n            expect(stuntman.fall_off_ladder).to eq \"Ouch\"\n        end\n    end",
+          "keywords":["double"]
+        },
+        {
+          "name":"class_doubles",
+          "example":"## class_doubles ##\n    class Deck\n        def self.build\n            #business logic\n        end\n    end\n    class Card_game\n        attr_reader :cards\n        def start\n            @cards = Deck.build\n        end\n    end\n\n    RSpec.describe Card_game do\n        it \"can only implement class methods that are defined on a class\" do\n            deck_klass = class_double(Deck, build: [ \"Ace\", \"Queen\" ]).as_stubbed_const\n            # class_double('Deck', [ \"Ace\", \"Queen\" ]) # can also use string if Deck is not yet defined\n\n            expect(deck_klass).to receive :build\n            subject.start\n            expect(subject.cards).to eq [\"Ace\", \"Queen\"]\n        end\n    end",
+          "keywords":["class_double","as_stubbed_const"]
+        },
+        {
+          "name":"instance_doubles",
+          "example":"## instance_doubles ##\n    class Person\n        def a(seconds)\n            sleep(seconds)\n            \"Hello\"\n        end\n    end\n    RSpec.describe Person do\n        context \"regular double\" do\n            it \"can implement any method\" do\n                person = double(a: \"Hello\", b: 20)\n                expect(person.a).to eq \"Hello\"\n            end\n        end\n        context \"instance variable\" do\n            it \"can only implement methods that are defined on the class\" do\n                # person = instance_double(Person, a: \"Hello\", b: 20)\n\n                person = instance_double(Person)\n                allow(person).to receive(:a).with(3).and_return(\"Hello\")\n                expect(person.a(3)).to eq \"Hello\"\n            end\n        end\n    end\n------------------------------------------------------------------------------\nRSpec.describe WhicsIntegrationApi::LastCoverSource do\n  let(:policy_hash) { { 'last_cover_agent_id' => 'id', 'source' => source  } }\n  let(:link) { instance_double(WhicsIntegrationApi::BaseModel::Link) }\n  let(:last_cover_agent) { described_class.new(policy_hash) }\n\n  before do\n    allow(WhicsIntegrationApi::BaseModel::Link).to receive(:new).and_return(link)\n  end\n\n  context 'NIB' do\n    let(:source) { 'NIB' }\n    it 'initalizes for NIB without error' do\n      expect(last_cover_agent.sourceId).to eq 'nib:id'\n      expect(last_cover_agent.link).to eq link\n    end\n  end",
+          "keywords":["instance_double"]
+        }
+      ]
+    },
+    {
+      "name":"subject",
+      "categories":[
+        {
+          "name":"explicit_subject",
+          "example":"## explicit_subject ##\n    RSpec.describe Hash do\n        subject( :bob ) do\n            { a: 1, b: 3 }\n        end\n\n        it \"has two key-value pairs\" do\n            expect(subject.length).to eq 2\n            expect(bob.length).to eq 2\n        end\n    end",
+          "keywords":["subject"]
+        },
+        {
+          "name":"implicit_subject",
+          "example":"## implicit_subject ##\n    RSpec.describe Hash do\n        # let(:my_hash) { {} }\n        # Hash will be assigned to subject\n        # let(:subject) { Hash.new }\n\n        it \"Should start off empty\" do\n            expect(subject.length).to eq 0\n        end\n    end",
+          "keywords":["subject"]
+        }
+      ]
+    },
+    {
+      "name":"other",
+      "categories":[
+        {
+          "name":"allow_method",
+          "example":"## allow_method ##\n    RSpec.describe Hash do\n        # let(:my_hash) { {} }\n        # Hash will be assigned to subject\n        # let(:subject) { Hash.new }\n\n        allow(three_element_array).to receive(:first).with(no_args).and_return(1)\n        allow(three_element_array).to receive(:first).with(2).and_return(1)\n        allow(three_element_array).to receive(:first).with(2).and_raise(StandardError, \"error\")\n        allow(three_element_array).to receive(:first).and_raise(StandardError, \"error\")\n        allow(three_element_array).to receive(:first).and_return(1)\n\n        it \"Should start off empty\" do\n            expect(subject.length).to eq 0\n        end\n    end",
+          "keywords":["allow", "receive", "and_return"]
+        },
+        {
+          "name":"array",
+          "example": "## array ##\n    RSpec.describe Array do\n        it \"Length is zero\" do\n            expect(subject.length).to eq 0\n            subject.push \"Test\"\n            expect(subject.length).to eq 1\n        end\n    end\n\n    RSpec.describe Array do\n        subject :sally do\n            [ 'Hello', 'There' ]\n        end\n\n        it \"has a length of two\" do\n            expect(subject.length).to eq 2\n            subject.pop\n            expect(subject.length).to eq 1\n        end\n\n\n        it \"has a length of two\" do\n            expect(subject.length).to eq 2\n        end\n    end",
+          "keywords":[ ]
+        },
+        {
+          "name":"before_and_after",
+          "example": "## before_and_after ##\n    RSpec.describe 'before and after hooks' do\n        before(:context) do\n            puts 'Before context'\n        end\n        after(:context) do\n            puts 'After context'\n        end\n        before(:example) do\n            puts 'Before example'\n        end\n        after(:example) do\n            puts 'After example'\n        end\n        it 'is just a random example' do\n            expect(5 + 2).to eq 7\n        end\n        it 'is just another random example' do\n            expect(3 + 2).to eq 5\n        end\n    end",
+          "keywords":["before","after"]
+        },
+        {
+          "name":"compound_expectations",
+          "example": "## compound_expectations ##\n    RSpec.describe 25 do\n        it \"can test for multiple matchers\" do\n            # expect(subject).to be_odd\n            # expect(subject).to be > 20\n\n            expect(subject).to be_odd.and be > 20\n        end\n        it { is_expected.to be_odd and be > 20}\n    end\n    RSpec.describe [ :usa, :canada, :mexico] do\n        it \"can check for multiple possibilities\" do\n            expect(subject.sample).to eq(:usa).or eq(:canada).or eq(:mexico)\n        end\n    end",
+          "keywords":["or"]
+        },
+        {
+          "name":"context",
+          "example": "## context ##\n    RSpec.describe '#even? method' do\n        # it 'should return true if number is even'\n        # it 'should return false if number is odd'\n        # context is symatically the same as describe\n        context 'with even number' do\n            it 'returns true' do\n                expect(4.even?).to eq true\n            end\n        end\n        describe 'with odd number' do\n            it 'returns false' do\n                expect(3.even?).to eq false\n            end\n        end\n    end",
+          "keywords":["context"]
+        },
+        {
+          "name":"described_class",
+          "example": "## described_class ##\n    class King\n        attr_reader :name\n        def initialize name\n            @name = name\n        end\n    end\n    RSpec.describe King do\n        # subject { King.new(\"boris\") }\n        # let( :louis ) { King.new(\"Louis\") }\n        subject { described_class.new(\"Boris\") }\n        let( :louis ) { described_class.new(\"Louis\") }\n        it \"represents a great person\" do\n            expect(subject.name).to eq \"Boris\"\n            expect(louis.name).to eq \"Louis\"\n        end\n    end\n",
+          "keywords":["described_class"]
+        },
+        {
+          "name":"matching_arguments",
+          "example": "## matching_arguments ##\n    RSpec.describe \"matching arguments\" do\n        it \"can return different values depending on the argument\" do\n            three_element_array = double #[1,2,3]\n\n            allow(three_element_array).to receive(:first).with(no_args).and_return(1)\n            allow(three_element_array).to receive(:first).with(1).and_return([1])\n            allow(three_element_array).to receive(:first).with(2).and_return([1,2])\n            allow(three_element_array).to receive(:first).with(be >= 3).and_return([1,2,3])\n\n            expect(three_element_array.first).to eq 1\n            expect(three_element_array.first(2)).to eq [1,2]\n            expect(three_element_array.first(100)).to eq [1,2,3]\n        end\n    end",
+          "keywords":[""]
+        },
+        {
+          "name":"nested_hooks",
+          "example": "## nested_hooks ##\n    RSpec.describe 'nested hooks' do\n        before :context do\n            puts 'Before context'\n        end\n        before :example do\n            puts 'Before example'\n        end\n        it 'Does basic math' do\n            expect(1+1).to eq 2\n        end\n    end",
+          "keywords":["with"]
+        },
+        {
+          "name":"not_to_method",
+          "example":"## not_to_method ##\n    RSpec.describe \"not to method\" do\n        it \"Checks that two values do non match\" do\n            expect(5).not_to eq 10\n            expect(\"Hello\").not_to eq 'hello'\n        end\n    end",
+          "keywords":["not_to"]
+        },
+        {
+          "name":"one_liner_syntax",
+          "example":"## one_liner_syntax ##\n    RSpec.describe \"shorthand syntax\" do\n        subject { 5 }\n\n        context \"Classic syntax\" do\n            it \"should equal five\" do\n                expect(subject).to eq 5\n            end\n        end\n        context \"One liner syntax\" do\n            it { is_expected.to eq 5 }\n        end\n    end",
+          "keywords":["it"]
+        },
+        {
+          "name":"overwriting_let_spec",
+          "example": "## overwriting_let_spec ##\n    class ProgrammingLanguage\n        attr_reader :name\n        def initialize(name = \"Ruby\")\n            @name = name\n        end\n    end\n    RSpec.describe ProgrammingLanguage do\n        let(:language) { ProgrammingLanguage.new \"Python\" }\n\n        it \"Should store the name of the language\" do\n            expect( language.name ).to eq \"Python\"\n        end\n        context \"with no argument\" do\n            let(:language) do\n                ProgrammingLanguage.new\n            end\n            it \"Should default to Ruby as the name\" do\n                expect( language.name ).to eq \"Ruby\"\n            end\n        end\n    end",
+          "keywords":["let"]
+        },
+        {
+          "name":"raise_error",
+          "example": "## raise_error ##\n    RSpec.describe \"raise_error matcher\" do\n        def some_method\n            x\n        end\n        class CustomError < StandardError; end\n        it \"can check for NameError error\" do\n            expect{ some_method }.to raise_error NameError\n        end\n        it \"can check for a user-created error\" do\n            expect{ raise CustomError }.to raise_error CustomError\n        end\n    end",
+          "keywords":["raise_error"]
+        },
+        {
+          "name":"respond_to",
+          "example":"## respond_to ##\n    class HotChocolate\n        def drink\n            \"Delicious\"\n        end\n        def discard\n            \"PLOP!\"\n        end\n        def purchase number\n            \"I just purchased #{numer} hot chocolate\"\n        end\n    end\n    RSpec.describe HotChocolate do\n        it \"confirms that an object can respond to a method\" do\n            expect(subject).to respond_to :drink\n            expect(subject).to respond_to :drink, :discard\n            expect(subject).to respond_to :drink, :discard, :purchase\n        end\n\n        it \"confirms an object can respond to a method with arguments\" do\n            expect(subject).to respond_to(:purchase).with(1).arguments\n        end\n\n        it { is_expected.to respond_to :drink, :discard, :purchase }\n        it { is_expected.to respond_to(:purchase).with(1).arguments }\n    end",
+          "keywords":["respond_to"]
+        },
+        {
+          "name":"shared_context",
+          "example":"## shared_context ##\n    RSpec.shared_context 'common' do\n        before do\n            @foods = []\n        end\n        def some_helper_method\n            5\n        end\n        let(:some_variable) { [ 1,2,3] }\n    end\n\n    RSpec.describe \"first example group\" do\n        include_context 'common'\n\n        it 'can use outside instance variables' do\n            expect(@foods.length).to eq 0\n            @foods << \"Sushi\"\n            expect(@foods.length).to eq 1\n        end\n\n        it 'can reuse instance variables across different examples' do\n            expect(@foods.length).to eq 0\n        end\n\n        it 'can use shared helper methods' do\n            expect(some_helper_method).to eq 5\n        end\n    end\n\n    RSpec.describe \"second example in different file\" do\n        include_context \"common\"\n\n        it 'can use shared variables' do\n            expect(some_variable.length).to eq 3\n        end\n    end",
+          "keywords":["shared_context"]
+        },
+        {
+          "name":"shared_examples",
+          "example": "## shared_examples ##\n    RSpec.shared_examples \"a ruby object with three elements\" do\n        it \"returns the number of items\" do\n            expect(subject.length).to eq 3\n        end\n    end\n\n    RSpec.describe Array do\n        subject { [1,2,3] }\n        include_examples \"a ruby object with three elements\"\n    end\n    RSpec.describe String do\n        subject { \"abc\" }\n        include_examples \"a ruby object with three elements\"\n    end\n    RSpec.describe Hash do\n        subject { { a: 2, b: 4, c: 1} }\n        include_examples \"a ruby object with three elements\"\n    end\n\n    class SausageLink\n        def length\n            3\n        end\n    end\n    RSpec.describe SausageLink do\n        subject { described_class.new }\n        include_examples \"a ruby object with three elements\"\n    end",
+          "keywords":["shared_examples"]
+        }
+      ]
+    }
+  ]
+}

@@ -3,7 +3,7 @@
 require 'json'
 require_relative './version'
 
-module Specr
+module SpecRefLib
     # Class to build the selection menu
     class Menu
         def initialize
@@ -14,7 +14,7 @@ module Specr
         end
 
         def show_menu
-            puts "Specr version #{Specr::Version.version}"
+            puts "Spec-ref-lib version #{SpecRefLib::Version.version}"
             puts ''
 
             @json['categories'].each_with_index do |category, index|

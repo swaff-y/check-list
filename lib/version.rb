@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Specr
+module SpecRefLib
     # Specr version number
     class Version
         def self.version

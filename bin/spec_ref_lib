@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require 'specr'
+require 'spec_ref_lib'
 
-Specr::Menu.new
+SpecRefLib::Menu.new

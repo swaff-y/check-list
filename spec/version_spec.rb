@@ -2,7 +2,7 @@
 
 require_relative '../lib/version'
 
-RSpec.describe Specr::Version do
-  let(:subject) { Specr::Version }
+RSpec.describe SpecRefLib::Version do
+  let(:subject) { SpecRefLib::Version }
   it { expect(subject.version).to eq '0.0.0' }
 end

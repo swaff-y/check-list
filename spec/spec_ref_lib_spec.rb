@@ -27,21 +27,46 @@ RSpec.describe SpecRefLib::Menu do
     allow(File).to receive(:read).and_return('{}')
     allow(JSON).to receive(:parse).and_return(dummy_json)
     allow_any_instance_of(menu).to receive(:clear).and_return(true)
-    allow_any_instance_of(menu).to receive(:log).and_return(true)
   end
 
   context '.new' do
     before(:each) do
       allow_any_instance_of(menu).to receive(:show_menu).and_return(true)
+      allow_any_instance_of(menu).to receive(:log).and_return(true)
     end
+
     it 'initalizes correctly' do
       expect { menu.new }.not_to raise_error
+    end
+  end
+
+  context '.log' do
+    before(:each) do
+      allow_any_instance_of(menu).to receive(:show_menu).and_return(true)
+    end
+
+    it 'logs the correct value' do
+      m = menu.new
+      expect { m.log('value') }.to output("value\n").to_stdout
+    end
+  end
+
+  context '.ret_value' do
+    before(:each) do
+      allow_any_instance_of(menu).to receive(:show_menu).and_return(true)
+    end
+
+    it 'gets the correct value' do
+      allow($stdin).to receive(:gets).and_return('foo')
+      m = menu.new
+      expect(m.ret_value).to eq 'foo'
     end
   end
 
   context '.show_menu' do
     before(:each) do
       allow_any_instance_of(menu).to receive(:get_input).and_return(true)
+      allow_any_instance_of(menu).to receive(:log).and_return(true)
     end
 
     it 'creates menu' do
@@ -55,6 +80,7 @@ RSpec.describe SpecRefLib::Menu do
     before(:each) do
       allow_any_instance_of(menu).to receive(:show_menu).and_return(true)
       allow_any_instance_of(menu).to receive(:get_input).and_return(true)
+      allow_any_instance_of(menu).to receive(:log).and_return(true)
     end
 
     it 'creates a sub menu' do
@@ -67,6 +93,7 @@ RSpec.describe SpecRefLib::Menu do
     before(:each) do
       allow_any_instance_of(menu).to receive(:show_menu).and_return(true)
       allow_any_instance_of(menu).to receive(:get_input).and_return(true)
+      allow_any_instance_of(menu).to receive(:log).and_return(true)
     end
 
     it 'creates an example' do
@@ -83,24 +110,58 @@ RSpec.describe SpecRefLib::Menu do
       allow_any_instance_of(menu).to receive(:list_validator).and_return(1)
       allow_any_instance_of(menu).to receive(:show_sub_menu).and_return(true)
       allow_any_instance_of(menu).to receive(:show_example).and_return(true)
+      allow_any_instance_of(menu).to receive(:log).and_return(true)
     end
 
     it 'gets an list_selector input' do
       m = menu.new
       allow(m).to receive(:ret_value).and_return(1)
       expect { m.get_input('list_selector', arr) }.not_to raise_error
+      expect(m.get_input('list_selector', arr)).to eq true
     end
 
     it 'gets an sub_list_selector input' do
       m = menu.new
       allow(m).to receive(:ret_value).and_return(1)
       expect { m.get_input('sub_list_selector', arr2) }.not_to raise_error
+      expect(m.get_input('sub_list_selector', arr2)).to eq true
     end
 
     it 'gets an end_list_selector input' do
       m = menu.new
       allow(m).to receive(:ret_value).and_return(1)
       expect { m.get_input('end_list_selector', arr2) }.not_to raise_error
+      expect(m.get_input('end_list_selector', arr2)).to eq true
+    end
+  end
+
+  context '.list_validator' do
+    let(:arr) { %w[cat1 cat2] }
+    before(:each) do
+      allow_any_instance_of(menu).to receive(:show_menu).and_return(true)
+      allow_any_instance_of(menu).to receive(:get_input).and_return('get_input')
+      allow_any_instance_of(menu).to receive(:leave).and_return('exit')
+      allow_any_instance_of(menu).to receive(:log).and_return(true)
+    end
+
+    it 'exits if value == q' do
+      m = menu.new
+      expect(m.list_validator('q', arr, nil, nil)).to eq 'exit'
+    end
+
+    it 'returns an integar if valid array passed' do
+      m = menu.new
+      expect(m.list_validator('1', arr, nil, nil)).to eq 1
+    end
+
+    it 'returns if no array passed' do
+      m = menu.new
+      expect(m.list_validator('1', nil, nil, nil)).to eq false
+    end
+
+    it 'returns logs message if non-intager passed' do
+      m = menu.new
+      expect(m.list_validator('s', arr, nil, nil)).to eq 'get_input'
     end
   end
 end

@@ -22,7 +22,11 @@ module SpecRefLib
         end
 
         def ret_value
-            gets.chomp
+            $stdin.gets.chomp
+        end
+
+        def leave
+            exit
         end
 
         def show_menu
@@ -81,7 +85,7 @@ module SpecRefLib
             if value == 'q'
                 clear
                 log 'Good Bye'
-                exit
+                return leave
             end
 
             # rubocop:disable Style/SoleNestedConditional
@@ -90,7 +94,7 @@ module SpecRefLib
             end
             # rubocop:enable Style/SoleNestedConditional
 
-            return unless array
+            return false unless array
 
             log 'Wrong value'
             get_input(type, category)

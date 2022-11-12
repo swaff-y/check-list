@@ -31,12 +31,27 @@ RSpec.describe SpecRefLib::Menu do
 
   context '.new' do
     before(:each) do
-      allow_any_instance_of(menu).to receive(:show_menu).and_return(true)
-      allow_any_instance_of(menu).to receive(:log).and_return(true)
+      allow_any_instance_of(menu).to receive(:show_menu).and_return('show_menu')
+      allow_any_instance_of(menu).to receive(:leave).and_return('exit')
     end
 
     it 'initalizes correctly' do
       expect { menu.new }.not_to raise_error
+      m = menu.new
+      expect(m.status).to eq 'active'
+    end
+
+    it 'exits if env variable is not set' do
+      stub_const('SpecRefLib::Menu::FILEPATH', nil)
+      m = menu.new
+      expect(m.status).to eq 'no path set'
+    end
+
+    it 'exits if filepath invalid' do
+      stub_const('SpecRefLib::Menu::FILEPATH', 'invalid')
+      allow(JSON).to receive(:parse).and_raise
+      m = menu.new
+      expect(m.status).to eq 'invalid path'
     end
   end
 
@@ -48,6 +63,17 @@ RSpec.describe SpecRefLib::Menu do
     it 'logs the correct value' do
       m = menu.new
       expect { m.log('value') }.to output("value\n").to_stdout
+    end
+  end
+
+  context '.leave' do
+    before(:each) do
+      allow_any_instance_of(menu).to receive(:show_menu).and_return(true)
+    end
+
+    it 'exits' do
+      m = menu.new
+      expect { m.leave }.to raise_error SystemExit
     end
   end
 

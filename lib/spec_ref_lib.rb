@@ -6,12 +6,29 @@ require_relative './version'
 module SpecRefLib
     # Class to build the selection menu
     class Menu
+        attr_reader :status
+
+        FILEPATH = ENV.fetch('SPEC_REF_LIB')
+        # rubocop:disable Metrics/MethodLength
         def initialize
             clear
-            dir = File.dirname(__FILE__)
-            @json = JSON.parse(File.read("#{dir}/specr.json"))
-            show_menu
+            if FILEPATH.nil?
+                log 'file path not set'
+                leave
+                @status = 'no path set'
+            else
+                begin
+                    @json = JSON.parse(File.read(FILEPATH))
+                    @status = 'active'
+                    show_menu
+                rescue StandardError
+                    log 'Invalid file path'
+                    leave
+                    @status = 'invalid path'
+                end
+            end
         end
+        # rubocop:enable Metrics/MethodLength
 
         def clear
             system 'clear'

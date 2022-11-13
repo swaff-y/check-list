@@ -35,7 +35,7 @@ RSpec.describe SpecRefLib::Menu do
   context '.new' do
     before(:each) do
       allow_any_instance_of(menu).to receive(:show_menu).and_return('show_menu')
-      # allow_any_instance_of(menu).to receive(:leave).and_return('exit')
+      allow(SpecRefLib::HandleFile).to receive(:fetch_file).and_return('active')
     end
 
     it 'initalizes correctly' do
@@ -43,25 +43,12 @@ RSpec.describe SpecRefLib::Menu do
       m = menu.new
       expect(m.status).to eq 'active'
     end
-
-    it 'exits if env variable is not set' do
-      stub_const('SpecRefLib::Menu::FILEPATH', nil)
-      m = menu.new
-      expect(m.status).to eq 'no path set'
-    end
-
-    it 'exits if filepath invalid' do
-      stub_const('SpecRefLib::Menu::FILEPATH', 'invalid')
-      allow(JSON).to receive(:parse).and_raise
-      m = menu.new
-      expect(m.status).to eq 'invalid path'
-    end
   end
 
   context '.show_menu' do
     before(:each) do
       allow_any_instance_of(menu).to receive(:get_input).and_return(true)
-      # allow_any_instance_of(menu).to receive(:log).and_return(true)
+      allow(SpecRefLib::HandleFile).to receive(:fetch_file).and_return('active')
     end
 
     it 'creates menu' do
@@ -75,6 +62,7 @@ RSpec.describe SpecRefLib::Menu do
     before(:each) do
       allow_any_instance_of(menu).to receive(:show_menu).and_return(true)
       allow_any_instance_of(menu).to receive(:get_input).and_return(true)
+      allow(SpecRefLib::HandleFile).to receive(:fetch_file).and_return('active')
     end
 
     it 'creates a sub menu' do
@@ -87,7 +75,7 @@ RSpec.describe SpecRefLib::Menu do
     before(:each) do
       allow_any_instance_of(menu).to receive(:show_menu).and_return(true)
       allow_any_instance_of(menu).to receive(:get_input).and_return(true)
-      # allow_any_instance_of(menu).to receive(:log).and_return(true)
+      allow(SpecRefLib::HandleFile).to receive(:fetch_file).and_return('active')
     end
 
     it 'creates an example' do
@@ -104,7 +92,7 @@ RSpec.describe SpecRefLib::Menu do
       allow_any_instance_of(menu).to receive(:list_validator).and_return(1)
       allow_any_instance_of(menu).to receive(:show_sub_menu).and_return(true)
       allow_any_instance_of(menu).to receive(:show_example).and_return(true)
-      # allow_any_instance_of(menu).to receive(:log).and_return(true)
+      allow(SpecRefLib::HandleFile).to receive(:fetch_file).and_return('active')
     end
 
     it 'gets an list_selector input' do
@@ -131,8 +119,7 @@ RSpec.describe SpecRefLib::Menu do
     before(:each) do
       allow_any_instance_of(menu).to receive(:show_menu).and_return(true)
       allow_any_instance_of(menu).to receive(:get_input).and_return('get_input')
-      # allow_any_instance_of(menu).to receive(:leave).and_return('exit')
-      # allow_any_instance_of(menu).to receive(:log).and_return(true)
+      allow(SpecRefLib::HandleFile).to receive(:fetch_file).and_return('active')
     end
 
     it 'exits if value == q' do

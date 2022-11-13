@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
   s.email       = 'kyle@swaff.iu.au'
   s.files       = [
     'lib/spec_ref_lib.rb',
+    'lib/handle_file.rb',
     'lib/helpers.rb',
     'lib/method.rb',
     'lib/menu.rb',

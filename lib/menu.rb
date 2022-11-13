@@ -3,33 +3,21 @@
 require 'json'
 require_relative 'version'
 require_relative 'helpers'
+require_relative 'handle_file'
 
 module SpecRefLib
     # Class to build the selection menu
     class Menu
         attr_reader :status
 
-        FILEPATH = ENV.fetch('SPEC_REF_LIB')
-        # rubocop:disable Metrics/MethodLength
         def initialize
             SpecRefLib::Helpers.clear
-            if FILEPATH.nil?
-                SpecRefLib::Helpers.log 'file path not set'
-                SpecRefLib::Helpers.leave
-                @status = 'no path set'
-            else
-                begin
-                    @json = JSON.parse(File.read(FILEPATH))
-                    @status = 'active'
-                    show_menu
-                rescue StandardError
-                    SpecRefLib::Helpers.log 'Invalid file path'
-                    SpecRefLib::Helpers.leave
-                    @status = 'invalid path'
-                end
-            end
+            @status = SpecRefLib::HandleFile.fetch_file
+            return unless @status == 'active'
+
+            @json = SpecRefLib::HandleFile.fetch_json
+            show_menu
         end
-        # rubocop:enable Metrics/MethodLength
 
         def show_menu
             SpecRefLib::Helpers.log "Spec-ref-lib version #{SpecRefLib::Version.version}"

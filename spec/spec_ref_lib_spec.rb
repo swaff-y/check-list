@@ -3,7 +3,7 @@
 require_relative '../lib/spec_ref_lib'
 
 RSpec.describe SpecRefLib::Start do
-  it 'inatializes correctly'
+  it 'intializes correctly'
   it 'sets options'
   it 'handles the selection'
 end

@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 require 'json'
-require_relative './version'
+require_relative 'version'
+require_relative 'helpers'
 
 module SpecRefLib
     # Class to build the selection menu
@@ -11,10 +12,10 @@ module SpecRefLib
         FILEPATH = ENV.fetch('SPEC_REF_LIB')
         # rubocop:disable Metrics/MethodLength
         def initialize
-            clear
+            SpecRefLib::Helpers.clear
             if FILEPATH.nil?
-                log 'file path not set'
-                leave
+                SpecRefLib::Helpers.log 'file path not set'
+                SpecRefLib::Helpers.leave
                 @status = 'no path set'
             else
                 begin
@@ -22,54 +23,38 @@ module SpecRefLib
                     @status = 'active'
                     show_menu
                 rescue StandardError
-                    log 'Invalid file path'
-                    leave
+                    SpecRefLib::Helpers.log 'Invalid file path'
+                    SpecRefLib::Helpers.leave
                     @status = 'invalid path'
                 end
             end
         end
         # rubocop:enable Metrics/MethodLength
 
-        def clear
-            system 'clear'
-        end
-
-        def log(str)
-            puts str
-        end
-
-        def ret_value
-            $stdin.gets.chomp
-        end
-
-        def leave
-            exit
-        end
-
         def show_menu
-            log "Spec-ref-lib version #{SpecRefLib::Version.version}"
-            log ''
+            SpecRefLib::Helpers.log "Spec-ref-lib version #{SpecRefLib::Version.version}"
+            SpecRefLib::Helpers.log ''
 
             @json['categories'].each_with_index do |category, index|
-                log "\t#{index + 1}. #{category['name']}"
+                SpecRefLib::Helpers.log "\t#{index + 1}. #{category['name']}"
             end
 
             get_input('list_selector', @json)
         end
 
         def show_sub_menu(menu, name)
-            log name
-            log ''
+            SpecRefLib::Helpers.log name
+            SpecRefLib::Helpers.log ''
 
             menu.each_with_index do |category, index|
-                log "\t#{index + 1}. #{category['name']}"
+                SpecRefLib::Helpers.log "\t#{index + 1}. #{category['name']}"
             end
 
             get_input('sub_list_selector', menu)
         end
 
         def show_example(example)
-            log example
+            SpecRefLib::Helpers.log example
             get_input('end_list_selector', nil)
         end
 
@@ -77,21 +62,21 @@ module SpecRefLib
         def get_input(type, category)
             case type
             when 'list_selector'
-                value = list_validator(ret_value, category['categories'], type, category)
+                value = list_validator(SpecRefLib::Helpers.ret_value, category['categories'], type, category)
                 menu = category['categories'][value - 1]
                 sub_name = menu['name']
                 sub_menu = menu['categories']
-                clear
+                SpecRefLib::Helpers.clear
                 show_sub_menu(sub_menu, sub_name)
             when 'sub_list_selector'
-                value = list_validator(ret_value, category, type, category)
+                value = list_validator(SpecRefLib::Helpers.ret_value, category, type, category)
                 menu = category[value - 1]
                 sub_example = menu['example']
-                clear
+                SpecRefLib::Helpers.clear
                 show_example(sub_example)
             when 'end_list_selector'
-                list_validator(ret_value, nil, type, category)
-                clear
+                list_validator(SpecRefLib::Helpers.ret_value, nil, type, category)
+                SpecRefLib::Helpers.clear
                 show_menu
             end
         end
@@ -100,9 +85,9 @@ module SpecRefLib
         # rubocop:disable Metrics/MethodLength
         def list_validator(value, array, type, category)
             if value == 'q'
-                clear
-                log 'Good Bye'
-                return leave
+                SpecRefLib::Helpers.clear
+                SpecRefLib::Helpers.log 'Good Bye'
+                return SpecRefLib::Helpers.leave
             end
 
             # rubocop:disable Style/SoleNestedConditional
@@ -113,7 +98,7 @@ module SpecRefLib
 
             return false unless array
 
-            log 'Wrong value'
+            SpecRefLib::Helpers.log 'Wrong value'
             get_input(type, category)
         end
         # rubocop:enable Metrics/MethodLength

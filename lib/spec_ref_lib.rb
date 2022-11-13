@@ -2,6 +2,7 @@
 
 require 'optimist'
 require_relative 'menu'
+require_relative 'method'
 require_relative 'version'
 
 module SpecRefLib

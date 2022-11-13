@@ -3,5 +3,5 @@
 require_relative '../lib/method'
 
 RSpec.describe SpecRefLib::Method do
-  it 'inatializes correctly'
+  it 'intializes correctly'
 end

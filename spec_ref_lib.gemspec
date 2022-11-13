@@ -9,7 +9,14 @@ Gem::Specification.new do |s|
   s.description = 'A rspec library'
   s.authors     = ['Kyle Swaffield']
   s.email       = 'kyle@swaff.iu.au'
-  s.files       = ['lib/spec_ref_lib.rb', 'lib/menu.rb', 'lib/specr.json', 'lib/version.rb']
+  s.files       = [
+    'lib/spec_ref_lib.rb',
+    'lib/helpers.rb',
+    'lib/method.rb',
+    'lib/menu.rb',
+    'lib/specr.json',
+    'lib/version.rb'
+  ]
   s.homepage    = 'https://rubygems.org/gems/spec_ref_lib'
   s.license     = 'MIT'
   s.executables << 'spec-ref-lib'

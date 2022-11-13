@@ -1,12 +1,23 @@
 # frozen_string_literal: true
 
+require_relative 'helpers'
+require_relative 'handle_file'
+
 module SpecRefLib
   # Displays the keyword/method provided
   class Method
-    FILEPATH = ENV.fetch('SPEC_REF_LIB')
     def initialize(method)
       SpecRefLib::Helpers.clear
-      puts method
+      @status = SpecRefLib::HandleFile.fetch_file
+      return unless @status == 'active'
+
+      @json = SpecRefLib::HandleFile.fetch_json
+      # validate / find method(method)
+      show_method
+    end
+
+    def show_method
+      puts 'Showing method here'
     end
   end
 end

@@ -6,7 +6,7 @@ require_relative 'handle_file'
 module SpecRefLib
   # Displays the keyword/method provided
   class Method
-    def initialize(method)
+    def initialize(_method)
       SpecRefLib::Helpers.clear
       @status = SpecRefLib::HandleFile.fetch_file
       return unless @status == 'active'

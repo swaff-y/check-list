@@ -4,6 +4,7 @@ require 'optimist'
 require_relative 'menu'
 require_relative 'method'
 require_relative 'version'
+require_relative 'handle_file'
 
 module SpecRefLib
   # The start method for spec-ref-lib
@@ -12,6 +13,7 @@ module SpecRefLib
 
     def initialize
       @opts = set_options
+      @filepath = SpecRefLib::HandleFile.new
       handler
     end
 
@@ -37,9 +39,9 @@ module SpecRefLib
     # rubocop: enable Metrics/MethodLength
 
     def handler
-      return SpecRefLib::Menu.new if @opts[:method].nil?
+      return SpecRefLib::Menu.new(@filepath) if @opts[:method].nil?
 
-      SpecRefLib::Method.new(@opts[:method])
+      SpecRefLib::Method.new(@filepath, @opts[:method])
     end
   end
 end

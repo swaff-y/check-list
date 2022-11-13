@@ -6,12 +6,12 @@ require_relative 'handle_file'
 module SpecRefLib
   # Displays the keyword/method provided
   class Method
-    def initialize(_method)
+    def initialize(filepath, _method)
       SpecRefLib::Helpers.clear
-      @status = SpecRefLib::HandleFile.fetch_file
+      @status = filepath.fetch_file
       return unless @status == 'active'
 
-      @json = SpecRefLib::HandleFile.fetch_json
+      @json = filepath.fetch_json
       # validate / find method(method)
       show_method
     end

@@ -10,12 +10,12 @@ module SpecRefLib
     class Menu
         attr_reader :status
 
-        def initialize
+        def initialize(filepath)
             SpecRefLib::Helpers.clear
-            @status = SpecRefLib::HandleFile.fetch_file
-            return unless @status == 'active'
+            @status = filepath.fetch_file
+            return SpecRefLib::Helpers.log 'w' unless @status == 'active'
 
-            @json = SpecRefLib::HandleFile.fetch_json
+            @json = filepath.fetch_json
             show_menu
         end
 

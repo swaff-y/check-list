@@ -3,4 +3,4 @@
 
 require 'spec_ref_lib'
 
-SpecRefLib::Menu.new
+SpecRefLib::Start.new

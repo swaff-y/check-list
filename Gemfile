@@ -2,6 +2,7 @@
 
 source 'https://rubygems.org'
 
+gem 'optimist'
 gem 'rake'
 gem 'rspec'
 gem 'rubocop'

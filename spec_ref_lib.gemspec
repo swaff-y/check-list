@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require_relative './lib/version'
+require_relative './lib/config'
 
 Gem::Specification.new do |s|
   s.name        = 'spec_ref_lib'
-  s.version     = SpecRefLib::Version.version
+  s.version     = SpecRefLib::Config.version
   s.summary     = ''
   s.description = 'A rspec library'
   s.authors     = ['Kyle Swaffield']
@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
     'lib/method.rb',
     'lib/menu.rb',
     'lib/specr.json',
-    'lib/version.rb'
+    'lib/config.rb',
   ]
   s.homepage    = 'https://rubygems.org/gems/spec_ref_lib'
   s.license     = 'MIT'

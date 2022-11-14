@@ -1,46 +1,33 @@
 # frozen_string_literal: true
 
 require_relative 'helpers'
+require_relative 'config'
+require 'net/http'
 
 module SpecRefLib
   # Displays the keyword/method provided
   class HandleFile
     def initialize
-      @filepath = nil
+      @default_file = nil
+      fetch_default_file
     end
 
-    # rubocop: disable Metrics/MethodLength
-    def fetch_file
-      begin
-        @filepath = ENV.fetch('SPEC_REF_LIB')
-      rescue StandardError
-        # use default location if not present
-        @filepath = nil
-      end
-
-      if @filepath.nil?
-        SpecRefLib::Helpers.log 'file path not set'
-        SpecRefLib::Helpers.leave
-        'no path set'
-      else
-        read_file
-        return 'invalid path' if read_file == 'invalid path'
-
-        'active'
-      end
+    def fetch_default_file
+      uri = URI.parse(SpecRefLib::Config.default_url)
+      @default_file = Net::HTTP.get_response(uri)
+    rescue StandardError
+      @default_file = nil
     end
-    # rubocop: enable Metrics/MethodLength
 
     def fetch_json
-      read_file
-    end
-
-    def read_file
-      JSON.parse(File.read(@filepath))
+      JSON.parse(File.read(ENV.fetch('SPEC_REF_LIB')))
     rescue StandardError
-      SpecRefLib::Helpers.log 'Invalid file path'
-      SpecRefLib::Helpers.leave
-      'invalid path'
+      if @default_file.nil?
+        SpecRefLib::Helpers.log 'Invalid file'
+        SpecRefLib::Helpers.leave
+      else
+        JSON.parse(@default_file.body)
+      end
     end
   end
 end

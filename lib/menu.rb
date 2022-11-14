@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'json'
-require_relative 'version'
+require_relative 'config'
 require_relative 'helpers'
 require_relative 'handle_file'
 
@@ -12,15 +12,12 @@ module SpecRefLib
 
         def initialize(filepath)
             SpecRefLib::Helpers.clear
-            @status = filepath.fetch_file
-            return unless @status == 'active'
-
             @json = filepath.fetch_json
             show_menu
         end
 
         def show_menu
-            SpecRefLib::Helpers.log "Spec-ref-lib version #{SpecRefLib::Version.version}"
+            SpecRefLib::Helpers.log "Spec-ref-lib version #{SpecRefLib::Config.version}"
             SpecRefLib::Helpers.log ''
 
             @json['categories'].each_with_index do |category, index|

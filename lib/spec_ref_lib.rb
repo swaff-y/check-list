@@ -3,7 +3,7 @@
 require 'optimist'
 require_relative 'menu'
 require_relative 'method'
-require_relative 'version'
+require_relative 'config'
 require_relative 'handle_file'
 
 module SpecRefLib
@@ -22,7 +22,7 @@ module SpecRefLib
     # rubocop: disable Metrics/MethodLength
     def set_options
       Optimist.options do
-        version "spec-ref-lib #{SpecRefLib::Version.version} (c) 2022 Kyle Swaffield"
+        version "spec-ref-lib #{SpecRefLib::Config.version} (c) 2022 Kyle Swaffield"
         banner <<~EOS
             Rspec library
 

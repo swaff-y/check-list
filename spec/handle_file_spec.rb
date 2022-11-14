@@ -3,16 +3,34 @@
 require_relative '../lib/handle_file'
 
 RSpec.describe SpecRefLib::HandleFile do
-  xit 'exits if env variable is not set' do
-    stub_const('SpecRefLib::Menu::FILEPATH', nil)
-    m = menu.new
-    expect(m.status).to eq 'no path set'
+  let(:file_handler) { described_class }
+
+  context '.new' do
+    before do
+      allow_any_instance_of(file_handler).to receive(:fetch_default_file).and_return('default_file')
+    end
+
+    it 'initalizes correctly' do
+      expect { file_handler.new }.not_to raise_error
+    end
   end
 
-  xit 'exits if filepath invalid' do
-    stub_const('SpecRefLib::Menu::FILEPATH', 'invalid')
-    allow(JSON).to receive(:parse).and_raise
-    m = menu.new
-    expect(m.status).to eq 'invalid path'
+  context '.fetch_default_file' do
+    before do
+      allow(SpecRefLib::Config).to receive(:default_url).and_return('url')
+      allow(URI).to receive(:parse).and_return('URI')
+      allow(Net::HTTP).to receive(:get_response).and_return('response')
+    end
+
+    it 'gets data from a correct url' do
+      f = file_handler.new
+      expect(f.fetch_default_file).to eq 'response'
+    end
+
+    it 'returns nil if error occurs' do
+      allow(Net::HTTP).to receive(:get_response).and_raise StandardError
+      f = file_handler.new
+      expect(f.fetch_default_file).to eq nil
+    end
   end
 end

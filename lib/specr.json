@@ -182,6 +182,11 @@
           "name":"stub_const",
           "example": "## stub_const ##\nRSpec.describe SpecRefLib::HandleFile do\n  it 'exits if env variable is not set' do\n    stub_const('SpecRefLib::Menu::FILEPATH', nil)\n    m = menu.new\n    expect(m.status).to eq 'no path set'\n  end\nend",
           "keywords":["stub_const"]
+        },
+        {
+          "name":"instance_variable_set",
+          "example": "## instance_variable_set ##\n    it 'returns nil if error occurs' do\n      allow(ENV).to receive(:fetch).and_raise StandardError\n      f = file_handler.new\n      f.instance_variable_set(:@default_file, nil)\n      expect(f.fetch_json).to eq 'leave'\n    end",
+          "keywords":["instance_variable_set"]
         }
       ]
     }

@@ -177,6 +177,11 @@
           "name":"shared_examples",
           "example": "## shared_examples ##\n    RSpec.shared_examples \"a ruby object with three elements\" do\n        it \"returns the number of items\" do\n            expect(subject.length).to eq 3\n        end\n    end\n\n    RSpec.describe Array do\n        subject { [1,2,3] }\n        include_examples \"a ruby object with three elements\"\n    end\n    RSpec.describe String do\n        subject { \"abc\" }\n        include_examples \"a ruby object with three elements\"\n    end\n    RSpec.describe Hash do\n        subject { { a: 2, b: 4, c: 1} }\n        include_examples \"a ruby object with three elements\"\n    end\n\n    class SausageLink\n        def length\n            3\n        end\n    end\n    RSpec.describe SausageLink do\n        subject { described_class.new }\n        include_examples \"a ruby object with three elements\"\n    end",
           "keywords":["shared_examples"]
+        },
+        {
+          "name":"stub_const",
+          "example": "## stub_const ##\nRSpec.describe SpecRefLib::HandleFile do\n  it 'exits if env variable is not set' do\n    stub_const('SpecRefLib::Menu::FILEPATH', nil)\n    m = menu.new\n    expect(m.status).to eq 'no path set'\n  end\nend",
+          "keywords":["stub_const"]
         }
       ]
     }

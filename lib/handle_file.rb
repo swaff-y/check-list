@@ -20,7 +20,7 @@ module SpecRefLib
     end
 
     def fetch_json
-      JSON.parse(File.read(ENV.fetch('SPEC_REF_LIB')))
+      JSON.parse(File.read(ENV.fetch(SpecRefLib::Config.env)))
     rescue StandardError
       if @default_file.nil?
         SpecRefLib::Helpers.log 'Invalid file'

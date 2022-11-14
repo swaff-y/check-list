@@ -33,4 +33,32 @@ RSpec.describe SpecRefLib::HandleFile do
       expect(f.fetch_default_file).to eq nil
     end
   end
+
+  context '.fetch_json' do
+    before do
+      allow(SpecRefLib::Config).to receive(:env).and_return('env')
+      allow(ENV).to receive(:fetch).and_return('fetch')
+      allow(SpecRefLib::Helpers).to receive(:log).and_return('log')
+      allow(SpecRefLib::Helpers).to receive(:leave).and_return('leave')
+      allow(JSON).to receive(:parse).and_return('json')
+    end
+
+    it 'returns the correct json' do
+      f = file_handler.new
+      expect(f.fetch_json).to eq 'json'
+    end
+
+    it 'returns nil if error occurs' do
+      allow(ENV).to receive(:fetch).and_raise StandardError
+      f = file_handler.new
+      expect(f.fetch_json).to eq 'json'
+    end
+
+    it 'returns nil if error occurs' do
+      allow(ENV).to receive(:fetch).and_raise StandardError
+      f = file_handler.new
+      f.instance_variable_set(:@default_file, nil)
+      expect(f.fetch_json).to eq 'leave'
+    end
+  end
 end

@@ -3,9 +3,10 @@
 source 'https://rubygems.org'
 
 gem 'optimist'
-gem 'rake'
+gem 'rake', '12.0'
 gem 'rspec'
-gem 'rubocop'
+gem 'rubocop', '~> 0.79'
+gem 'rubocop-performance'
 gem 'rubocop-rake'
 gem 'rubocop-rspec'
 gem 'simplecov'

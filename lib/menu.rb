@@ -13,7 +13,7 @@ module SpecRefLib
         def initialize(filepath)
             SpecRefLib::Helpers.clear
             @status = filepath.fetch_file
-            return SpecRefLib::Helpers.log 'w' unless @status == 'active'
+            return unless @status == 'active'
 
             @json = filepath.fetch_json
             show_menu

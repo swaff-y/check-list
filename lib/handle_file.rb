@@ -8,6 +8,7 @@ module SpecRefLib
     def initialize
       @filepath = nil
     end
+
     # rubocop: disable Metrics/MethodLength
     def fetch_file
       begin
@@ -24,6 +25,7 @@ module SpecRefLib
       else
         read_file
         return 'invalid path' if read_file == 'invalid path'
+
         'active'
       end
     end
@@ -34,13 +36,11 @@ module SpecRefLib
     end
 
     def read_file
-      begin
-        JSON.parse(File.read(@filepath))
-      rescue StandardError
-        SpecRefLib::Helpers.log 'Invalid file path'
-        SpecRefLib::Helpers.leave
-        'invalid path'
-      end
+      JSON.parse(File.read(@filepath))
+    rescue StandardError
+      SpecRefLib::Helpers.log 'Invalid file path'
+      SpecRefLib::Helpers.leave
+      'invalid path'
     end
   end
 end

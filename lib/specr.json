@@ -104,7 +104,7 @@
           "keywords":["allow", "receive", "and_return"]
         },
         {
-          "name":"allow_any_instance_ofmethod",
+          "name":"allow_any_instance_of_method",
           "example":"## allow_any_instance_ofmethod ##\n    context '.log' do\n        before(:each) do\n            allow_any_instance_of(menu).to receive(:show_menu).and_return(true)\n        end\n\n        it 'logs the correct value' do\n            m = menu.new\n            expect { m.log('value') }.to output(\"value\\n\").to_stdout\n        end\n    end  context '.new' do\n    before(:each) do\n      allow_any_instance_of(menu).to receive(:show_menu).and_return('show_menu')\n      allow_any_instance_of(menu).to receive(:get_input).and_return(true)\n    end\n\n    it 'initalizes correctly' do\n      expect { menu.new(filepath) }.not_to raise_error\n    end\n  end",
           "keywords":["allow_any_instance_of", "receive", "and_return"]
         },

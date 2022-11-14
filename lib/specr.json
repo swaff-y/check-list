@@ -52,6 +52,11 @@
           "name":"satisfy_matcher",
           "example":"## statisfy_matcher ##\n    RSpec.describe \"satisfy_matcher\" do\n        # subject{\"racecar\"}\n        subject{\"racecars\"}\n\n        it 'is a palendrome' do\n            expect(subject).to satisfy { |value| value == value.reverse }\n        end\n        it 'is can expect a custom error message' do\n            expect(subject).to satisfy(\"be a palendrome\") do |value|\n                value == value.reverse\n            end\n        end\n    end",
           "keywords":["satisfy"]
+        },
+        {
+          "name":"output_matcher",
+          "example":"## ouput_matcher ##\n    context '.log' do\n        before(:each) do\n            allow_any_instance_of(menu).to receive(:show_menu).and_return(true)\n        end\n\n        it 'logs the correct value' do\n            m = menu.new\n            expect { m.log('value') }.to output(\"value\\n\").to_stdout\n        end\n    end",
+          "keywords":["output"]
         }
       ]
     },
@@ -97,6 +102,11 @@
           "name":"allow_method",
           "example":"## allow_method ##\n    RSpec.describe Hash do\n        # let(:my_hash) { {} }\n        # Hash will be assigned to subject\n        # let(:subject) { Hash.new }\n\n        allow(three_element_array).to receive(:first).with(no_args).and_return(1)\n        allow(three_element_array).to receive(:first).with(2).and_return(1)\n        allow(three_element_array).to receive(:first).with(2).and_raise(StandardError, \"error\")\n        allow(three_element_array).to receive(:first).and_raise(StandardError, \"error\")\n        allow(three_element_array).to receive(:first).and_return(1)\n\n        it \"Should start off empty\" do\n            expect(subject.length).to eq 0\n        end\n    end",
           "keywords":["allow", "receive", "and_return"]
+        },
+        {
+          "name":"allow_any_instance_ofmethod",
+          "example":"## allow_any_instance_ofmethod ##\n    context '.log' do\n        before(:each) do\n            allow_any_instance_of(menu).to receive(:show_menu).and_return(true)\n        end\n\n        it 'logs the correct value' do\n            m = menu.new\n            expect { m.log('value') }.to output(\"value\\n\").to_stdout\n        end\n    end  context '.new' do\n    before(:each) do\n      allow_any_instance_of(menu).to receive(:show_menu).and_return('show_menu')\n      allow_any_instance_of(menu).to receive(:get_input).and_return(true)\n    end\n\n    it 'initalizes correctly' do\n      expect { menu.new(filepath) }.not_to raise_error\n    end\n  end",
+          "keywords":["allow_any_instance_of", "receive", "and_return"]
         },
         {
           "name":"array",

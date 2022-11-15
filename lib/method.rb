@@ -8,16 +8,13 @@ module SpecRefLib
   class Method
     def initialize(filepath, _method)
       SpecRefLib::Helpers.clear
-      @status = filepath.fetch_file
-      return unless @status == 'active'
-
       @json = filepath.fetch_json
       # validate / find method(method)
       show_method
     end
 
     def show_method
-      puts 'Showing method here'
+      SpecRefLib::Helpers.log 'Showing method here'
     end
   end
 end

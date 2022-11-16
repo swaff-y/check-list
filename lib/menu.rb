@@ -69,8 +69,8 @@ module SpecRefLib
 
         # rubocop:disable Metrics/MethodLength
         def list_validator(value, array, type, category)
-            SpecRefLib::Helpers.clear
             if value == 'q'
+                SpecRefLib::Helpers.clear
                 SpecRefLib::Helpers.log 'Good Bye'
                 return SpecRefLib::Helpers.leave
             end

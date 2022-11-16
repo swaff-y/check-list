@@ -31,7 +31,6 @@ module SpecRefLib
         where [options] are:
         EOS
         opt :method, 'rspec keyword or method name', :type => :string # flag --method, default false
-        opt :configure, 'configure file path for spec definitions', :type => :string
       end
     end
     # rubocop: enable Layout/HeredocIndentation

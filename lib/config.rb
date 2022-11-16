@@ -4,7 +4,7 @@ module SpecRefLib
   # Specr version number
   class Config
     def self.version
-      '0.0.0'
+      '1.0.0'
     end
 
     def self.default_url

@@ -19,7 +19,6 @@ module SpecRefLib
 
     # rubocop: disable Layout/HeredocIndentation
     # rubocop: disable Naming/HeredocDelimiterNaming
-    # rubocop: disable Metrics/MethodLength
     def set_options
       Optimist.options do
         version "spec-ref-lib #{SpecRefLib::Config.version} (c) 2022 Kyle Swaffield"
@@ -35,7 +34,6 @@ module SpecRefLib
     end
     # rubocop: enable Layout/HeredocIndentation
     # rubocop: enable Naming/HeredocDelimiterNaming
-    # rubocop: enable Metrics/MethodLength
 
     def handler
       return SpecRefLib::Menu.new(@filepath) if @opts[:method].nil?

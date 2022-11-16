@@ -15,7 +15,6 @@ Gem::Specification.new do |s|
     'lib/helpers.rb',
     'lib/method.rb',
     'lib/menu.rb',
-    'lib/specr.json',
     'lib/config.rb',
   ]
   s.homepage    = 'https://rubygems.org/gems/spec_ref_lib'

@@ -3,7 +3,7 @@
 Command line library for rspec
 
 ## Installation
-`gem install spec-ref-lib`
+`gem install spec_ref_lib`
 
 ## Usage
 

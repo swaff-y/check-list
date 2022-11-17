@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
     'lib/handle_file.rb',
     'lib/helpers.rb',
     'lib/menu.rb',
+    'lib/list.rb',
     'lib/config.rb',
   ]
   s.homepage    = 'https://rubygems.org/gems/check_list'

@@ -13,7 +13,7 @@ module CheckList
     end
 
     def fetch_default_file
-      uri = URI.parse(CHECK_LIST::Config.default_url)
+      uri = URI.parse(CheckList::Config.default_url)
       @default_file = Net::HTTP.get_response(uri)
     rescue StandardError
       @default_file = nil

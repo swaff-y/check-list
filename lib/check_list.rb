@@ -2,7 +2,7 @@
 
 require 'optimist'
 require_relative 'menu'
-require_relative 'method'
+require_relative 'list'
 require_relative 'config'
 require_relative 'handle_file'
 
@@ -38,7 +38,7 @@ module CheckList
     def handler
       return CheckList::Menu.new(@filepath) if @opts[:list].nil?
 
-      CheckList::Method.new(@filepath, @opts[:list])
+      CheckList::List.new(@filepath, @opts[:list])
     end
   end
 end

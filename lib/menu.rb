@@ -5,7 +5,7 @@ require_relative 'config'
 require_relative 'helpers'
 require_relative 'handle_file'
 
-module SpecRefLib
+module CheckList
     # Class to build the selection menu
     class Menu
         attr_reader :status

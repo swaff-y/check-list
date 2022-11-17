@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module SpecRefLib
+module CheckList
   # Class to build the selection menu
   class Helpers
     def self.clear

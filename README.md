@@ -1,9 +1,9 @@
-# spec-ref-lib
+# check-list
 
 Command line library for rspec
 
 ## Installation
-`gem install spec_ref_lib`
+`gem install check_list`
 
 ## Usage
 

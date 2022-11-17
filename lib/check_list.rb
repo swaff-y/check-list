@@ -6,14 +6,14 @@ require_relative 'method'
 require_relative 'config'
 require_relative 'handle_file'
 
-module SpecRefLib
-  # The start method for spec-ref-lib
+module CheckList
+  # The start method for check-list
   class Start
     attr_reader :opts
 
     def initialize
       @opts = set_options
-      @filepath = SpecRefLib::HandleFile.new
+      @filepath = CheckList::HandleFile.new
       handler
     end
 
@@ -21,24 +21,24 @@ module SpecRefLib
     # rubocop: disable Naming/HeredocDelimiterNaming
     def set_options
       Optimist.options do
-        version "spec-ref-lib #{SpecRefLib::Config.version} (c) 2022 Kyle Swaffield"
+        version "check-list #{CheckList::Config.version} (c) 2022 Kyle Swaffield"
         banner <<~EOS
-            Rspec library
+            Check-List
 
         Usage:
-        spec-ref-lib [options] <method name | file path>
+        check-list [options] <list name>
         where [options] are:
         EOS
-        opt :method, 'rspec keyword or method name', :type => :string # flag --method, default false
+        opt :list, 'checklist name', :type => :string # flag --list, default false
       end
     end
     # rubocop: enable Layout/HeredocIndentation
     # rubocop: enable Naming/HeredocDelimiterNaming
 
     def handler
-      return SpecRefLib::Menu.new(@filepath) if @opts[:method].nil?
+      return CheckList::Menu.new(@filepath) if @opts[:list].nil?
 
-      SpecRefLib::Method.new(@filepath, @opts[:method])
+      CheckList::Method.new(@filepath, @opts[:list])
     end
   end
 end

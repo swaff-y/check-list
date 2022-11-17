@@ -4,7 +4,7 @@ require_relative 'helpers'
 require_relative 'config'
 require 'net/http'
 
-module SpecRefLib
+module CheckList
   # Displays the keyword/method provided
   class HandleFile
     def initialize
@@ -13,18 +13,18 @@ module SpecRefLib
     end
 
     def fetch_default_file
-      uri = URI.parse(SpecRefLib::Config.default_url)
+      uri = URI.parse(CHECK_LIST::Config.default_url)
       @default_file = Net::HTTP.get_response(uri)
     rescue StandardError
       @default_file = nil
     end
 
     def fetch_json
-      JSON.parse(File.read(ENV.fetch(SpecRefLib::Config.env)))
+      JSON.parse(File.read(ENV.fetch(CheckList::Config.env)))
     rescue StandardError
       if @default_file.nil?
-        SpecRefLib::Helpers.log 'Invalid file'
-        SpecRefLib::Helpers.leave
+        CheckList::Helpers.log 'Invalid file'
+        CheckList::Helpers.leave
       else
         JSON.parse(@default_file.body)
       end

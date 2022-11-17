@@ -8,7 +8,7 @@ module CheckList
     end
 
     def self.default_url
-      ''
+      'https://raw.githubusercontent.com/swaff-y/check-list/main/lib/checklist.json'
     end
 
     def self.env

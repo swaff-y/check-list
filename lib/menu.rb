@@ -12,7 +12,7 @@ module CheckList
             @list = nil
             @task_idx = nil
             @sub_task_idx = nil
-            @results = Hash.new
+            @results = []
             @json = filepath.fetch_json
             show_menu
         end
@@ -61,14 +61,19 @@ module CheckList
         end
 
         def process_value(value, task, sub_task)
-            # CheckList::Helpers.log value
-            # CheckList::Helpers.log task
-            # CheckList::Helpers.log sub_task
+            result = {
+                'list': @list['name'],
+                'task': task['name'],
+                'subTask': sub_task['name'],
+                'value': value
+            }
+            @results.push result
         end
 
         def process_results
             CheckList::Helpers.clear
-            CheckList::Helpers.log 'Results'
+            # iterate through the @results array. If each task has y then the task must get a y
+            CheckList::Helpers.log @results
         end
 
         def get_list(value)

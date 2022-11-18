@@ -18,7 +18,6 @@ module CheckList
         end
 
         def show_menu
-            CheckList::Helpers.clear
             list_array = @json['lists']
             CheckList::Helpers.log 'Checklists'
 
@@ -35,37 +34,36 @@ module CheckList
         def show_tasks
             @task_idx = 0 if @task_idx.nil?
 
+            return process_results if @task_idx == @list['tasks'].length
             show_sub_tasks
-            # @task_idx += 1
-            # value = validate_response(CheckList::Helpers.ret_value)
-            # process_value(value, @list['tasks'][@task_idx - 1])
-            return show_tasks if @task_idx < @list['tasks'].length
-
-            process_results
         end
 
         def show_sub_tasks
+            return if @task_idx == @list['tasks'].length
             CheckList::Helpers.clear
+
+            CheckList::Helpers.log @list['name']
             CheckList::Helpers.log "#{@task_idx + 1}. #{@list['tasks'][@task_idx]['name']}"
 
             @sub_task_idx = 0 if @sub_task_idx.nil?
             task = @list['tasks'][@task_idx]
             sub_tasks = @list['tasks'][@task_idx]['subTasks']
 
-            CheckList::Helpers.log "  #{@sub_task_idx + 1}. #{sub_tasks[@sub_task_idx]['name']}"
+            CheckList::Helpers.log "  #{@sub_task_idx + 1}. #{sub_tasks[@sub_task_idx]['name']} y/n/na"
             @sub_task_idx += 1
             value = validate_response(CheckList::Helpers.ret_value)
             process_value(value, task, sub_tasks[@sub_task_idx - 1]  )
             return show_sub_tasks if @sub_task_idx < sub_tasks.length
 
-            @sub_task_idx = nil
+            @sub_task_idx = 0
             @task_idx += 1
+            show_tasks
         end
 
         def process_value(value, task, sub_task)
-            CheckList::Helpers.log value
-            CheckList::Helpers.log task
-            CheckList::Helpers.log sub_task
+            # CheckList::Helpers.log value
+            # CheckList::Helpers.log task
+            # CheckList::Helpers.log sub_task
         end
 
         def process_results
@@ -104,7 +102,7 @@ module CheckList
                 good_bye
             else
                 @sub_task_idx -= 1
-                show_tasks
+                show_sub_tasks
             end
         end
         # rubocop:enable Metrics/MethodLength

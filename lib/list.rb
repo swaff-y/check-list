@@ -8,7 +8,7 @@ require_relative 'handle_file'
 module CheckList
     # Class to build the selection menu
     class List
-        def initialize(filepath, list)
+        def initialize(filepath, _list)
             CheckList::Helpers.clear
             @json = filepath.fetch_json
             show_list

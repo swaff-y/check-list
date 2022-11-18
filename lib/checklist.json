@@ -78,33 +78,33 @@
       "name":"Code Review",
       "tasks": [
         {
-          "name":"Read Requirements",
+          "name":"Read Alice in wonder land",
           "description":"A longer description of the task",
           "subTasks": [
             {
-              "name":"Are they reasonable?",
+              "name":"is there a red queen?",
               "description":"A longer description of the sub-task"
             },
             {
-              "name":"Have they been satisfied?",
+              "name":"Where is the cat?",
               "description":"A longer description of the sub-task"
             }
           ]
         },
         {
-          "name":"Prep Environment",
+          "name":"Cards",
           "description":"A longer description of the task",
           "subTasks": [
             {
-              "name":"Do you have all the credentials?",
+              "name":"Red Cards?",
               "description":"A longer description of the sub-task"
             },
             {
-              "name":"Can you run the current version end-to-end?",
+              "name":"Red queen?",
               "description":"A longer description of the sub-task"
             },
             {
-              "name":"Does the debugger work?",
+              "name":"done?",
               "description":"A longer description of the sub-task"
             }
           ]

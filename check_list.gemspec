@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
   s.email       = 'kyle@swaff.iu.au'
   s.files       = [
     'lib/check_list.rb',
+    'lib/exceptions.rb',
     'lib/handle_file.rb',
     'lib/helpers.rb',
     'lib/menu.rb',

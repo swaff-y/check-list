@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module CheckList
-  # Specr version number
+  # Check-list version number
   class Config
     def self.version
       '0.0.0'

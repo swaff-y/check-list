@@ -6,6 +6,7 @@ require_relative 'helpers'
 require_relative 'handle_file'
 require_relative 'exceptions'
 require_relative 'results'
+require_relative 'validations'
 
 module CheckList
     # Class to build the selection menu
@@ -28,7 +29,7 @@ module CheckList
             list_array.each_with_index do |list, index|
                 CheckList::Helpers.log "#{index + 1}. #{list['name']}"
             end
-            value = validate(CheckList::Helpers.ret_value, list_array)
+            value = CheckList::Validations.validate(CheckList::Helpers.ret_value, list_array)
             @list = get_list(value) unless value.nil?
             return show_tasks unless @list.nil?
 
@@ -54,7 +55,7 @@ module CheckList
 
             CheckList::Helpers.log "  #{@sub_task_idx + 1}. #{sub_tasks[@sub_task_idx]['name']} y/n/na"
             @sub_task_idx += 1
-            value = validate_response(CheckList::Helpers.ret_value)
+            value = CheckList::Validations.validate_response(CheckList::Helpers.ret_value)
             @results.process_value(@list, value, task, sub_tasks[@sub_task_idx - 1]  )
             return show_sub_tasks if @sub_task_idx < sub_tasks.length
 
@@ -66,38 +67,6 @@ module CheckList
         def get_list(value)
             @json['lists'][value - 1]
         end
-
-        def validate(value, array)
-            good_bye if value == 'q'
-
-            # rubocop:disable Style/SoleNestedConditional
-            if array && value.to_i < array.length + 1
-                return value.to_i unless value.to_i.zero?
-            end
-            # rubocop:enable Style/SoleNestedConditional
-
-            return false unless array
-
-            nil
-        end
-
-        # rubocop:disable Metrics/MethodLength
-        def validate_response(value)
-            case value
-            when 'y'
-                value
-            when 'n'
-                value
-            when 'na'
-                value
-            when 'q'
-                good_bye
-            else
-                @sub_task_idx -= 1
-                show_sub_tasks
-            end
-        end
-        # rubocop:enable Metrics/MethodLength
 
         def good_bye
             CheckList::Helpers.clear

@@ -2,7 +2,7 @@
 
 module CheckList
   module Exceptions
-    # Specr version number
+    # Checklist errors
     class InvalidListError < StandardError
     end
   end

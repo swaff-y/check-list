@@ -10,6 +10,7 @@ module CheckList
   # Class to build the selection menu
   class Results
     attr_reader :results
+
     def initialize
       @results_array = []
       @results = {}
@@ -17,15 +18,16 @@ module CheckList
 
     def process_value(list, value, task, sub_task)
         result = {
-            'list': list['name'],
-            'task': task['name'],
-            'subTask': sub_task['name'],
-            'value': value,
-            'timestamp': CheckList::Config.time_now
+          'list': list['name'],
+          'task': task['name'],
+          'subTask': sub_task['name'],
+          'value': value,
+          'timestamp': CheckList::Config.time_now
         }
         @results_array.push result
     end
 
+    # rubocop:disable Metrics/MethodLength
     def process_results
       CheckList::Helpers.clear
 
@@ -38,14 +40,16 @@ module CheckList
       rescue CheckList::Exceptions::InvalidListError => e
           CheckList::Helpers.log "Invalid List: #{e}"
           CheckList::Helpers.leave
-    #   rescue StandardError => e
-    #       CheckList::Helpers.log "Error: #{e}"
-    #       CheckList::Helpers.leave
+      rescue StandardError => e
+          CheckList::Helpers.log "Error: #{e}"
+          CheckList::Helpers.leave
       end
     end
+    # rubocop:enable Metrics/MethodLength
 
     private
 
+    # rubocop:disable Metrics/MethodLength
     def update_tasks
         @results[:tasks].each_with_index do |result, index|
             status = 'n'
@@ -55,12 +59,13 @@ module CheckList
                     break
                 else
                     status = 'y'
-                end   
+                end
             end
             @results[:tasks][index][:status] = status
             @results[:tasks][index][:time] = CheckList::Config.time_now
         end
     end
+    # rubocop:enable Metrics/MethodLength
 
     def add_sub_tasks
         @results_array.each do |result|
@@ -68,18 +73,19 @@ module CheckList
                 e[:name] == result[:task]
             end
 
-            @results[:tasks][task][:subTasks].push name: result[:subTask], status: result[:value], time: result[:timestamp]
+            res_hash = { name: result[:subTask], status: result[:value], time: result[:timestamp] }
+            @results[:tasks][task][:subTasks].push res_hash
         end
     end
 
+    # rubocop:disable Metrics/MethodLength
     def create_tasks
-        @results[:tasks] = [ ]
+        @results[:tasks] = []
         @results_array.each do |result|
             res = { name: result[:task], status: 'n', time: '', subTasks: [] }
+            raise CheckList::Exceptions::InvalidListError 'The list does not have a name' if @results[:name].nil?
 
-            if @results[:name].nil? 
-                raise CheckList::Exceptions::InvalidListError.new 'The list does not have a name'
-            elsif @results[:tasks].empty?
+            if @results[:tasks].empty?
                 @results[:tasks].push res
             elsif @results[:tasks].include? name: result[:task], status: 'n', time: '', subTasks: []
                 next
@@ -88,14 +94,15 @@ module CheckList
             end
         end
     end
+    # rubocop:enable Metrics/MethodLength
 
     def create_results_list
         @results[:name] = nil
         @results_array.each do |result|
-            if @results[:name].nil? 
+            if @results[:name].nil?
                 @results[:name] = result[:list]
             elsif @results[:name] != result[:list]
-                raise CheckList::Exceptions::InvalidListError.new 'The list can only contain one list title'
+                raise CheckList::Exceptions::InvalidListError 'The list can only contain one list title'
             end
         end
     end

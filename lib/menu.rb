@@ -40,12 +40,16 @@ module CheckList
             @task_idx = 0 if @task_idx.nil?
 
             return @results.process_results if @task_idx == @list['tasks'].length
+
             show_sub_tasks
         end
 
+        # rubocop:disable Metrics/MethodLength
         def show_sub_tasks
-            # This gaurd clause is neccecary to protect an incorrect value being entered causing an extra recrsive call to show_sub_tasks
+            # This gaurd clause is neccecary to protect an incorrect value being entered.
+            # This causes an extra recrsive call to show_sub_tasks
             return if @task_idx == @list['tasks'].length
+
             CheckList::Helpers.clear
             CheckList::Helpers.log "#{@task_idx + 1}. #{@list['tasks'][@task_idx]['name']}"
 
@@ -57,18 +61,22 @@ module CheckList
             @sub_task_idx += 1
             value = CheckList::Validations.validate_response(CheckList::Helpers.ret_value)
             return good_bye if value == 'q'
-            if value == 0 
+
+            # rubocop: disable Style/NumericPredicate
+            if value == 0
                 @sub_task_idx -= 1
                 return show_sub_tasks
             end
+            # rubocop: enable Style/NumericPredicate
 
-            @results.process_value(@list, value, task, sub_tasks[@sub_task_idx - 1]  )
+            @results.process_value(@list, value, task, sub_tasks[@sub_task_idx - 1])
             return show_sub_tasks if @sub_task_idx < sub_tasks.length
 
             @sub_task_idx = 0
             @task_idx += 1
             show_tasks
         end
+        # rubocop:enable Metrics/MethodLength
 
         def get_list(value)
             @json['lists'][value - 1]

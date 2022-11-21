@@ -56,6 +56,12 @@ module CheckList
             CheckList::Helpers.log "  #{@sub_task_idx + 1}. #{sub_tasks[@sub_task_idx]['name']} y/n/na"
             @sub_task_idx += 1
             value = CheckList::Validations.validate_response(CheckList::Helpers.ret_value)
+            return good_bye if value == 'q'
+            if value == 0 
+                @sub_task_idx -= 1
+                return show_sub_tasks
+            end
+
             @results.process_value(@list, value, task, sub_tasks[@sub_task_idx - 1]  )
             return show_sub_tasks if @sub_task_idx < sub_tasks.length
 

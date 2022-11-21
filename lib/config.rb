@@ -14,5 +14,10 @@ module CheckList
     def self.env
       'CHECK_LIST'
     end
+
+    def self.time_now
+      t = Time.now
+      "#{t.year}-#{t.month}-#{t.day} #{t.hour}:#{t.min}"
+    end
   end
 end

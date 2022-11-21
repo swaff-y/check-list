@@ -16,13 +16,14 @@ module CheckList
     end
 
     def process_value(list, value, task, sub_task)
-      result = {
-          'list': list['name'],
-          'task': task['name'],
-          'subTask': sub_task['name'],
-          'value': value
-      }
-      @results_array.push result
+        result = {
+            'list': list['name'],
+            'task': task['name'],
+            'subTask': sub_task['name'],
+            'value': value,
+            'timestamp': CheckList::Config.time_now
+        }
+        @results_array.push result
     end
 
     def process_results
@@ -37,9 +38,9 @@ module CheckList
       rescue CheckList::Exceptions::InvalidListError => e
           CheckList::Helpers.log "Invalid List: #{e}"
           CheckList::Helpers.leave
-      # rescue StandardError => e
-      #     CheckList::Helpers.log "Error: #{e}"
-      #     CheckList::Helpers.leave
+    #   rescue StandardError => e
+    #       CheckList::Helpers.log "Error: #{e}"
+    #       CheckList::Helpers.leave
       end
     end
 
@@ -57,6 +58,7 @@ module CheckList
                 end   
             end
             @results[:tasks][index][:status] = status
+            # @retults[:tasks][index][:time] = CheckList::Config.time_now
         end
     end
 
@@ -66,14 +68,14 @@ module CheckList
                 e[:name] == result[:task]
             end
 
-            @results[:tasks][task][:subTasks].push name: result[:subTask], status: result[:value]
+            @results[:tasks][task][:subTasks].push name: result[:subTask], status: result[:value], time: result[:timestamp]
         end
     end
 
     def create_tasks
         @results[:tasks] = [ ]
         @results_array.each do |result|
-            res = { name: result[:task], status: 'n', subTasks: [] }
+            res = { name: result[:task], status: 'n', subTasks: [], time: '' }
 
             if @results[:name].nil? 
                 raise CheckList::Exceptions::InvalidListError.new 'The list does not have a name'

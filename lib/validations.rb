@@ -27,10 +27,9 @@ module CheckList
         when 'na'
             value
         when 'q'
-            good_bye
+            value
         else
-            @sub_task_idx -= 1
-            show_sub_tasks
+            0
         end
     end
     # rubocop:enable Metrics/MethodLength

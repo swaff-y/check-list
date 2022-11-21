@@ -83,7 +83,7 @@ module CheckList
         @results[:tasks] = []
         @results_array.each do |result|
             res = { name: result[:task], status: 'n', time: '', subTasks: [] }
-            raise CheckList::Exceptions::InvalidListError 'The list does not have a name' if @results[:name].nil?
+            raise CheckList::Exceptions::InvalidListError, 'The list does not have a name' if @results[:name].nil?
 
             if @results[:tasks].empty?
                 @results[:tasks].push res
@@ -102,7 +102,7 @@ module CheckList
             if @results[:name].nil?
                 @results[:name] = result[:list]
             elsif @results[:name] != result[:list]
-                raise CheckList::Exceptions::InvalidListError 'The list can only contain one list title'
+                raise CheckList::Exceptions::InvalidListError, 'The list can only contain one list title'
             end
         end
     end

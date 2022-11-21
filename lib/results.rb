@@ -58,7 +58,7 @@ module CheckList
                 end   
             end
             @results[:tasks][index][:status] = status
-            # @retults[:tasks][index][:time] = CheckList::Config.time_now
+            @results[:tasks][index][:time] = CheckList::Config.time_now
         end
     end
 
@@ -75,13 +75,13 @@ module CheckList
     def create_tasks
         @results[:tasks] = [ ]
         @results_array.each do |result|
-            res = { name: result[:task], status: 'n', subTasks: [], time: '' }
+            res = { name: result[:task], status: 'n', time: '', subTasks: [] }
 
             if @results[:name].nil? 
                 raise CheckList::Exceptions::InvalidListError.new 'The list does not have a name'
             elsif @results[:tasks].empty?
                 @results[:tasks].push res
-            elsif @results[:tasks].include? name: result[:task], status: 'n', subTasks: []
+            elsif @results[:tasks].include? name: result[:task], status: 'n', time: '', subTasks: []
                 next
             else
                 @results[:tasks].push res

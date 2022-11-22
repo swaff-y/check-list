@@ -38,7 +38,7 @@ module CheckList
     def handler
       return CheckList::Menu.new(@filepath) if @opts[:list].nil?
 
-      CheckList::List.new(@filepath, @opts[:list])
+      CheckList::List.new(@filepath)
     end
   end
 end

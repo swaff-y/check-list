@@ -17,4 +17,13 @@ RSpec.describe CheckList::List do
 
     it { expect { list.new(filelist) }.not_to raise_error }
   end
+
+  context '.show_list' do
+    it 'logs list' do
+      allow(CheckList::Helpers).to receive(:log).and_return('log')
+      allow(CheckList::Helpers).to receive(:clear).and_return('clear')
+      l = list.new(filelist)
+      expect(l.show_list).to eq 'log'
+    end
+  end
 end

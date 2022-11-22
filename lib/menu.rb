@@ -30,6 +30,8 @@ module CheckList
                 CheckList::Helpers.log "#{index + 1}. #{list['name']}"
             end
             value = CheckList::Validations.validate(CheckList::Helpers.ret_value, list_array)
+            return good_bye if value.zero?
+
             @list = get_list(value) unless value.nil?
             return show_tasks unless @list.nil?
 

@@ -6,11 +6,7 @@ module CheckList
     def self.validate(value, array)
       return 0 if value == 'q'
 
-      # rubocop:disable Style/SoleNestedConditional
-      if array && value.to_i < array.length + 1
-          return value.to_i unless value.to_i.zero?
-      end
-      # rubocop:enable Style/SoleNestedConditional
+      return value.to_i if array && value.to_i < array.length + 1 && !value.to_i.zero?
 
       return false unless array
 

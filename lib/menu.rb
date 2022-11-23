@@ -30,11 +30,15 @@ module CheckList
                 CheckList::Helpers.log "#{index + 1}. #{list['name']}"
             end
             value = CheckList::Validations.validate(CheckList::Helpers.ret_value, list_array)
-            return good_bye if value.zero?
+            return good_bye if !value || value.zero?
 
             @list = get_list(value) unless value.nil?
             return show_tasks unless @list.nil?
 
+            rec_show_menu
+        end
+
+        def rec_show_menu
             show_menu
         end
 
@@ -67,18 +71,22 @@ module CheckList
             # rubocop: disable Style/NumericPredicate
             if value == 0
                 @sub_task_idx -= 1
-                return show_sub_tasks
+                return rec_show_sub_tasks
             end
             # rubocop: enable Style/NumericPredicate
 
             @results.process_value(@list, value, task, sub_tasks[@sub_task_idx - 1])
-            return show_sub_tasks if @sub_task_idx < sub_tasks.length
+            return rec_show_sub_tasks if @sub_task_idx < sub_tasks.length
 
             @sub_task_idx = 0
             @task_idx += 1
             show_tasks
         end
         # rubocop:enable Metrics/MethodLength
+
+        def rec_show_sub_tasks
+            show_sub_tasks
+        end
 
         def get_list(value)
             @json['lists'][value - 1]

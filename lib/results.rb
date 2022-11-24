@@ -22,8 +22,14 @@ module CheckList
     def process_opts
         return @ref = @opts[:ref] unless @opts[:ref].nil?
 
-        # get it from git branch name
-        @ref = 'not set'
+        begin
+            @ref = `git status | grep 'On branch'`.chomp.gsub(/On branch /, '')
+        rescue StandardError
+            CheckList::Helpers.log 'Error with branch, using default'
+        ensure
+            @ref = 'main'
+        end
+        @ref
     end
 
     def process_value(list, value, task, sub_task)

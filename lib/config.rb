@@ -17,7 +17,7 @@ module CheckList
 
     def self.time_now
       t = Time.now
-      "#{t.year}-#{t.month}-#{t.day} #{t.hour}:#{t.min}"
+      "#{t.year}-#{t.month.to_s.rjust(2, "0")}-#{t.day.to_s.rjust(2, "0")} #{t.hour.to_s.rjust(2, "0")}:#{t.min.to_s.rjust(2, "0")}"
     end
   end
 end

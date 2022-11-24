@@ -4,7 +4,8 @@ require_relative '../lib/validations'
 require_relative '../lib/exceptions'
 
 RSpec.describe CheckList::Results do
-  let(:results) { described_class.new }
+  let(:opts) { double("options")}
+  let(:results) { described_class.new(opts) }
   let(:list) { { 'name' => 'Tom' } }
   let(:task) { { 'name' => 'Do something' } }
   let(:sub_task) { { 'name' => 'Do sub something' } }
@@ -18,19 +19,23 @@ RSpec.describe CheckList::Results do
   } ]}
 
   context '.new' do
+    before do
+      allow_any_instance_of(described_class).to receive(:process_opts).and_return('process_results')
+    end
     it { expect { results }.not_to raise_error  }
   end
 
   context '.process_value' do
     before do
       allow(CheckList::Config).to receive(:time_now).and_return('2022-11-22 10:57')
+      allow_any_instance_of(described_class).to receive(:process_opts).and_return('process_results')
     end
     it{ expect(results.process_value(list, value, task, sub_task)).to eq result}
   end
 
   context '.process_results' do
     let(:results) { described_class }
-    subject(:res) { results.new }
+    subject(:res) { results.new(opts) }
 
     before do
       allow(CheckList::Config).to receive(:time_now).and_return('2022-11-22 10:57')
@@ -41,6 +46,7 @@ RSpec.describe CheckList::Results do
       allow_any_instance_of(results).to receive(:create_tasks).and_return('create_tasks')
       allow_any_instance_of(results).to receive(:add_sub_tasks).and_return('add_sub_tasks')
       allow_any_instance_of(results).to receive(:update_tasks).and_return('update_tasks')
+      allow_any_instance_of(results).to receive(:process_opts).and_return('process_results')
     end
 
     it { expect(res.process_results).to eq 'log' }
@@ -57,23 +63,25 @@ RSpec.describe CheckList::Results do
   end
 
   context '.update_tasks' do
-    let(:results) { described_class }
-    subject(:res) { results.new }
+    subject(:results) { described_class }
 
     before do
-      subject.instance_variable_set(:@results, { tasks: [{subTasks: [{status: 'y'}, {status: 'n'}]}, {subTasks: [{status: 'y'}, {status: 'n'}]}]})
       allow(CheckList::Config).to receive(:time_now).and_return('2022-11-22 10:57')
       allow(CheckList::Helpers).to receive(:clear).and_return('clear')
       allow(CheckList::Helpers).to receive(:log).and_return('log')
       allow(CheckList::Helpers).to receive(:leave).and_return('leave')
+      allow_any_instance_of(results).to receive(:process_opts).and_return('process_results')
     end
 
-    it { expect { res.send(:update_tasks) }.not_to raise_error }
+    it 'is expected not to raise' do
+      s = subject.new(opts)
+      s.instance_variable_set(:@results, { tasks: [{subTasks: [{status: 'y'}, {status: 'n'}]}, {subTasks: [{status: 'y'}, {status: 'n'}]}]})
+      expect { s.send(:update_tasks) }.not_to raise_error
+    end
   end
 
   context '.add_sub_tasks' do
-    let(:results) { described_class }
-    subject(:res) { results.new }
+    subject(:results) { described_class }
 
     before do
       subject.instance_variable_set(:@results, { tasks: [{name: 'task', subTasks: [{status: 'y'}, {status: 'n'}]}, {name: 'another task', subTasks: [{status: 'y'}, {status: 'n'}]}]})
@@ -82,45 +90,57 @@ RSpec.describe CheckList::Results do
       allow(CheckList::Helpers).to receive(:clear).and_return('clear')
       allow(CheckList::Helpers).to receive(:log).and_return('log')
       allow(CheckList::Helpers).to receive(:leave).and_return('leave')
+      allow_any_instance_of(results).to receive(:process_opts).and_return('process_results')
     end
 
-    it { expect { res.send(:add_sub_tasks) }.not_to raise_error }
+    it 'is expected not to raise' do
+      s = subject.new(opts)
+      s.instance_variable_set(:@results, { tasks: [{name: 'task', subTasks: [{status: 'y'}, {status: 'n'}]}, {name: 'another task', subTasks: [{status: 'y'}, {status: 'n'}]}]})
+      s.instance_variable_set(:@results_array, [{ task: 'task', subTask: 'subTask', value: 'value', timestamp: '2022-11-22 10:57'}])
+      expect { s.send(:add_sub_tasks) }.not_to raise_error 
+    end
   end
 
   context '.create_tasks' do
-    let(:results) { described_class }
-    subject(:res) { results.new }
+    subject(:results) { described_class }
 
     before do
-      subject.instance_variable_set(:@results, { name: 'list' })
-      subject.instance_variable_set(:@results_array, [{ task: 'task', subTask: 'subTask', value: 'value', timestamp: '2022-11-22 10:57'}, { task: 'task', subTask: 'subTask', value: 'value', timestamp: '2022-11-22 10:57'}, { task: 'another task', subTask: 'another subTask', value: 'value', timestamp: '2022-11-22 10:57'}])
       allow(CheckList::Config).to receive(:time_now).and_return('2022-11-22 10:57')
       allow(CheckList::Helpers).to receive(:clear).and_return('clear')
       allow(CheckList::Helpers).to receive(:log).and_return('log')
       allow(CheckList::Helpers).to receive(:leave).and_return('leave')
+      allow_any_instance_of(results).to receive(:process_opts).and_return('process_results')
     end
 
-    it { expect { res.send(:create_tasks) }.not_to raise_error }
+    it 'is not expected to raise' do
+      s = subject.new(opts)
+      s.instance_variable_set(:@results, { name: 'list' })
+      s.instance_variable_set(:@results_array, [{ task: 'task', subTask: 'subTask', value: 'value', timestamp: '2022-11-22 10:57'}, { task: 'task', subTask: 'subTask', value: 'value', timestamp: '2022-11-22 10:57'}, { task: 'another task', subTask: 'another subTask', value: 'value', timestamp: '2022-11-22 10:57'}])
+      expect { s.send(:create_tasks) }.not_to raise_error
+    end
   end
 
   context '.create_results_list' do
-    let(:results) { described_class }
-    subject(:res) { results.new }
+    subject(:results) { described_class }
 
     before do
-      # subject.instance_variable_set(:@results, { tasks: [{name: 'task', subTasks: [{status: 'y'}, {status: 'n'}]}, {name: 'another task', subTasks: [{status: 'y'}, {status: 'n'}]}]})
-      subject.instance_variable_set(:@results_array, [{ list: 'list', task: 'task', subTask: 'subTask', value: 'value', timestamp: '2022-11-22 10:57'}])
       allow(CheckList::Config).to receive(:time_now).and_return('2022-11-22 10:57')
       allow(CheckList::Helpers).to receive(:clear).and_return('clear')
       allow(CheckList::Helpers).to receive(:log).and_return('log')
       allow(CheckList::Helpers).to receive(:leave).and_return('leave')
+      allow_any_instance_of(results).to receive(:process_opts).and_return('process_results')
     end
 
-    it { expect { res.send(:create_results_list) }.not_to raise_error }
+    it 'is expected not to raise' do
+      s = subject.new(opts)
+      s.instance_variable_set(:@results_array, [{ list: 'list', task: 'task', subTask: 'subTask', value: 'value', timestamp: '2022-11-22 10:57'}])
+      expect { s.send(:create_results_list) }.not_to raise_error
+    end
 
     it 'rasies if list incorrect' do
-      subject.instance_variable_set(:@results_array, [{ list: 'list', task: 'task', subTask: 'subTask', value: 'value', timestamp: '2022-11-22 10:57'}, { list: 'another list', task: 'task', subTask: 'subTask', value: 'value', timestamp: '2022-11-22 10:57'}])
-      expect { res.send(:create_results_list) }.to raise_error CheckList::Exceptions::InvalidListError, 'The list can only contain one list title'
+      s = subject.new(opts)
+      s.instance_variable_set(:@results_array, [{ list: 'list', task: 'task', subTask: 'subTask', value: 'value', timestamp: '2022-11-22 10:57'}, { list: 'another list', task: 'task', subTask: 'subTask', value: 'value', timestamp: '2022-11-22 10:57'}])
+      expect { s.send(:create_results_list) }.to raise_error CheckList::Exceptions::InvalidListError, 'The list can only contain one list title'
     end
   end
 end

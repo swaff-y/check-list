@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module CheckList
-  # Checlist Validations
+  # Checklist Validations
   class Validations
     def self.validate(value, array)
       return 0 if value == 'q'

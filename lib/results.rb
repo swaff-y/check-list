@@ -11,9 +11,19 @@ module CheckList
   class Results
     attr_reader :results
 
-    def initialize
+    def initialize(opts)
+      @ref = nil
+      @opts = opts
       @results_array = []
       @results = {}
+      process_opts
+    end
+
+    def process_opts
+        return @ref = @opts[:ref] unless @opts[:ref].nil?
+
+        # get it from git branch name
+        @ref = 'not set'
     end
 
     def process_value(list, value, task, sub_task)
@@ -98,6 +108,7 @@ module CheckList
 
     def create_results_list
         @results[:name] = nil
+        @results[:ref] = @ref
         @results_array.each do |result|
             if @results[:name].nil?
                 @results[:name] = result[:list]

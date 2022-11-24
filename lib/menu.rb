@@ -13,11 +13,12 @@ module CheckList
     class Menu
         attr_reader :results
 
-        def initialize(filepath)
+        def initialize(filepath, opts)
+            @opts = opts
             @list = nil
             @task_idx = nil
             @sub_task_idx = nil
-            @results = CheckList::Results.new
+            @results = CheckList::Results.new(@opts)
             @json = filepath.fetch_json
             show_menu
         end

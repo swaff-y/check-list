@@ -27,7 +27,7 @@ module CheckList
             Check-List
 
         Usage:
-        check-list [options] <list name>
+        check-list [options] <list name> | <reference name>
         where [options] are:
         EOS
         opt :list, 'checklist name', :type => :string # flag --list, default false

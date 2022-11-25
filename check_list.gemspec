@@ -12,6 +12,8 @@ Gem::Specification.new do |s|
   s.files       = [
     'lib/check_list.rb',
     'lib/validations.rb',
+    'lib/results_publisher.rb',
+    'lib/display_results.rb',
     'lib/results.rb',
     'lib/exceptions.rb',
     'lib/handle_file.rb',

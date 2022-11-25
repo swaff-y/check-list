@@ -1,10 +1,13 @@
 # frozen_string_literal: true
 
 require 'json'
+require 'fileutils'
 require_relative 'config'
 require_relative 'helpers'
 require_relative 'handle_file'
 require_relative 'exceptions'
+require_relative 'results_publisher'
+require_relative 'display_results'
 
 module CheckList
   # Class to build the selection menu
@@ -52,7 +55,8 @@ module CheckList
           create_tasks
           add_sub_tasks
           update_tasks
-          CheckList::Helpers.log @results
+          CheckList::ResultsPublisher.new(@results)
+          CheckList::DisplayResults.new(@results)
       rescue CheckList::Exceptions::InvalidListError => e
           CheckList::Helpers.log "Invalid List: #{e}"
           CheckList::Helpers.leave

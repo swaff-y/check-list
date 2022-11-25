@@ -42,6 +42,8 @@ RSpec.describe CheckList::Results do
       allow(CheckList::Helpers).to receive(:clear).and_return('clear')
       allow(CheckList::Helpers).to receive(:log).and_return('log')
       allow(CheckList::Helpers).to receive(:leave).and_return('leave')
+      allow(CheckList::ResultsPublisher).to receive(:new).and_return('results_publisher')
+      allow(CheckList::DisplayResults).to receive(:new).and_return('display_results')
       allow_any_instance_of(results).to receive(:create_results_list).and_return('create_results_list')
       allow_any_instance_of(results).to receive(:create_tasks).and_return('create_tasks')
       allow_any_instance_of(results).to receive(:add_sub_tasks).and_return('add_sub_tasks')
@@ -49,7 +51,7 @@ RSpec.describe CheckList::Results do
       allow_any_instance_of(results).to receive(:process_opts).and_return('process_results')
     end
 
-    it { expect(res.process_results).to eq 'log' }
+    it { expect(res.process_results).to eq 'display_results' }
 
     it 'raises an error' do 
       allow_any_instance_of(results).to receive(:create_tasks).and_raise CheckList::Exceptions::InvalidListError, 'invalid'

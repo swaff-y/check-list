@@ -2,6 +2,8 @@
 
 source 'https://rubygems.org'
 
+gem 'fileutils'
+gem 'json'
 gem 'optimist'
 gem 'rake', '12.0'
 gem 'rspec'

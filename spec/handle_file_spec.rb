@@ -35,21 +35,18 @@ RSpec.describe CheckList::HandleFile do
   end
 
   context '.fetch_json' do
+    let(:response) { double('default_file', 'body' => '{"json":"file"}')}
     before do
       allow(CheckList::Config).to receive(:env).and_return('env')
       allow(ENV).to receive(:fetch).and_return('fetch')
       allow(CheckList::Helpers).to receive(:log).and_return('log')
       allow(CheckList::Helpers).to receive(:leave).and_return('leave')
+      allow(URI).to receive(:parse).and_return('URI')
+      allow(Net::HTTP).to receive(:get_response).and_return(response)
       allow(JSON).to receive(:parse).and_return('json')
     end
 
     it 'returns the correct json' do
-      f = file_handler.new
-      expect(f.fetch_json).to eq 'json'
-    end
-
-    it 'returns nil if error occurs' do
-      allow(ENV).to receive(:fetch).and_raise StandardError
       f = file_handler.new
       expect(f.fetch_json).to eq 'json'
     end

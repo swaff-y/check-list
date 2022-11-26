@@ -25,6 +25,32 @@ RSpec.describe CheckList::Results do
     it { expect { results }.not_to raise_error  }
   end
 
+  context '.process_opts' do
+    let(:results) { described_class }
+    let(:opts) { { ref: "CA-123456"} }
+    let(:nil_opts) { { ref: nil } }
+    subject(:res) { results.new(opts) }
+    subject(:res_nil) { results.new(nil_opts) }
+
+    before do
+      allow(CheckList::Helpers).to receive(:system_cmd).and_return('CA-123456')
+      allow(CheckList::Helpers).to receive(:log).and_return('log')
+    end
+
+    it 'reference is not nil' do
+      expect(res.process_opts).to eq 'CA-123456'
+    end
+
+    it 'reference is nil' do
+      expect(res_nil.process_opts).to eq 'CA-123456'
+    end
+
+    it 'recovers if an error is thrown' do
+      allow(CheckList::Helpers).to receive(:system_cmd).and_raise
+      expect(res_nil.process_opts).to eq 'main'
+    end
+  end
+
   context '.process_value' do
     before do
       allow(CheckList::Config).to receive(:time_now).and_return('2022-11-22 10:57')

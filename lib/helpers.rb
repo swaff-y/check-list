@@ -18,5 +18,9 @@ module CheckList
     def self.leave
       exit
     end
+
+    def self.system_cmd(cmd)
+      `#{cmd}`
+    end
   end
 end

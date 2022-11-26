@@ -8,13 +8,14 @@ module CheckList
   class ResultsPublisher
     def initialize(results)
       @results = results
+      @checklist = `ls | grep checklist`
       publish_results
     end
 
     private
 
     def publish_results
-      return create_checklist_folder if `ls | grep checklist` == ''
+      return create_checklist_folder if @checklist == ''
 
       # TODO: Go through all results. If changed then replace.
       file = File.read('./checklist/data.json')
@@ -26,6 +27,7 @@ module CheckList
 
       data_hash['results'].push @results
       write_json_file(data_hash)
+      data_hash
     end
 
     def create_checklist_folder
@@ -34,6 +36,7 @@ module CheckList
 
       data_hash['results'].push @results
       write_json_file(data_hash)
+      data_hash
     end
 
     def write_json_file(data_hash)

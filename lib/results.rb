@@ -25,12 +25,12 @@ module CheckList
     def process_opts
         return @ref = @opts[:ref] unless @opts[:ref].nil?
 
+        @ref = 'main'
         begin
-            @ref = `git status | grep 'On branch'`.chomp.gsub(/On branch /, '')
+            branch = CheckList::Helpers.system_cmd("git status | grep 'On branch'")
+            @ref = branch.chomp.gsub(/On branch /, '')
         rescue StandardError
             CheckList::Helpers.log 'Error with branch, using default'
-        ensure
-            @ref = 'main'
         end
         @ref
     end

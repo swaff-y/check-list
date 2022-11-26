@@ -22,4 +22,10 @@ RSpec.describe CheckList::Helpers do
       expect(helper.ret_value).to eq 'foo'
     end
   end
+
+  context '.system_cmd' do
+      subject { described_class.system_cmd('ls') }
+      before { allow(described_class).to receive(:`).and_return('test_dir') }
+      it { is_expected.to eq('test_dir') } 
+  end
 end

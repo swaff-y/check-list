@@ -6,6 +6,10 @@ RSpec.describe CheckList::ResultsPublisher do
   subject(:results_publisher) { described_class }
   let(:results) { { name: 'Development', ref: 'CA-123456'} }
 
+  before do
+    allow(CheckList::Helpers).to receive(:system_cmd).and_return('system_cmd')
+  end
+
   context '.new' do
     before do
       allow_any_instance_of(subject).to receive(:publish_results).and_return('publish_results')

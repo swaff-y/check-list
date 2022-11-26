@@ -8,7 +8,7 @@ module CheckList
   class ResultsPublisher
     def initialize(results)
       @results = results
-      @checklist = `ls | grep checklist`
+      @checklist = CheckList::Helpers.system_cmd('ls | grep checklist')
       publish_results
     end
 

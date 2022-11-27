@@ -4,6 +4,7 @@ module CheckList
   # Display the results of a completed checklist
   class DisplayResults
     def initialize(results)
+      @path = nil
       @results = results
       display_results
     end
@@ -34,6 +35,8 @@ module CheckList
           # rubocop:enable Layout/LineLength
         end
       end
+      CheckList::Helpers.log ''
+      CheckList::Helpers.log "To view results in your browser use 'check-list --view'"
     end
     # rubocop:enable Metrics/MethodLength
   end

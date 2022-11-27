@@ -7,9 +7,11 @@ module CheckList
   # Publish the results of a completed checklist
   class ResultsPublisher
     def initialize(results)
+      @path = nil
       @results = results
       @checklist = CheckList::Helpers.system_cmd('ls | grep checklist')
       publish_results
+      move_build_to_checklist
     end
 
     private
@@ -28,6 +30,19 @@ module CheckList
       data_hash['results'].push @results
       write_json_file(data_hash)
       data_hash
+    end
+
+    def move_build_to_checklist
+      $LOAD_PATH.each_with_index do |path, index|
+        if path.match(/check_list-/)
+          @path = path
+          break
+        end
+      end
+      
+      unless @path.nil?
+        CheckList::Helpers.system_cmd "cp -r #{@path}/build ./checklist/"
+      end
     end
 
     def create_checklist_folder

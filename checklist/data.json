@@ -88,6 +88,184 @@
           ]
         }
       ]
+    },
+    {
+      "name": "Deveploment",
+      "ref": "swe",
+      "tasks": [
+        {
+          "name": "read requirements",
+          "status": "y",
+          "time": "2022-11-28 22:57",
+          "subTasks": [
+            {
+              "name": "Are they reasonable?",
+              "status": "y",
+              "time": "2022-11-28 22:57"
+            },
+            {
+              "name": "Can they be met?",
+              "status": "y",
+              "time": "2022-11-28 22:57"
+            }
+          ]
+        },
+        {
+          "name": "Prep Environment",
+          "status": "y",
+          "time": "2022-11-28 22:57",
+          "subTasks": [
+            {
+              "name": "Do you have all the credentials?",
+              "status": "y",
+              "time": "2022-11-28 22:57"
+            },
+            {
+              "name": "Can you run the current version end-to-end?",
+              "status": "y",
+              "time": "2022-11-28 22:57"
+            },
+            {
+              "name": "Does the debugger work?",
+              "status": "y",
+              "time": "2022-11-28 22:57"
+            }
+          ]
+        },
+        {
+          "name": "Start Development",
+          "status": "y",
+          "time": "2022-11-28 22:57",
+          "subTasks": [
+            {
+              "name": "Write Code",
+              "status": "y",
+              "time": "2022-11-28 22:57"
+            },
+            {
+              "name": "Write Specs",
+              "status": "y",
+              "time": "2022-11-28 22:57"
+            },
+            {
+              "name": "Update documentation",
+              "status": "y",
+              "time": "2022-11-28 22:57"
+            },
+            {
+              "name": "Prepare code for testing",
+              "status": "y",
+              "time": "2022-11-28 22:57"
+            }
+          ]
+        },
+        {
+          "name": "Run Specs",
+          "status": "y",
+          "time": "2022-11-28 22:57",
+          "subTasks": [
+            {
+              "name": "Does linting pass?",
+              "status": "y",
+              "time": "2022-11-28 22:57"
+            },
+            {
+              "name": "Do specs pass?",
+              "status": "y",
+              "time": "2022-11-28 22:57"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Deveploment",
+      "ref": "main",
+      "tasks": [
+        {
+          "name": "read requirements",
+          "status": "y",
+          "time": "2022-11-28 23:32",
+          "subTasks": [
+            {
+              "name": "Are they reasonable?",
+              "status": "y",
+              "time": "2022-11-28 23:32"
+            },
+            {
+              "name": "Can they be met?",
+              "status": "y",
+              "time": "2022-11-28 23:32"
+            }
+          ]
+        },
+        {
+          "name": "Prep Environment",
+          "status": "y",
+          "time": "2022-11-28 23:32",
+          "subTasks": [
+            {
+              "name": "Do you have all the credentials?",
+              "status": "y",
+              "time": "2022-11-28 23:32"
+            },
+            {
+              "name": "Can you run the current version end-to-end?",
+              "status": "y",
+              "time": "2022-11-28 23:32"
+            },
+            {
+              "name": "Does the debugger work?",
+              "status": "y",
+              "time": "2022-11-28 23:32"
+            }
+          ]
+        },
+        {
+          "name": "Start Development",
+          "status": "y",
+          "time": "2022-11-28 23:32",
+          "subTasks": [
+            {
+              "name": "Write Code",
+              "status": "y",
+              "time": "2022-11-28 23:32"
+            },
+            {
+              "name": "Write Specs",
+              "status": "y",
+              "time": "2022-11-28 23:32"
+            },
+            {
+              "name": "Update documentation",
+              "status": "y",
+              "time": "2022-11-28 23:32"
+            },
+            {
+              "name": "Prepare code for testing",
+              "status": "y",
+              "time": "2022-11-28 23:32"
+            }
+          ]
+        },
+        {
+          "name": "Run Specs",
+          "status": "y",
+          "time": "2022-11-28 23:32",
+          "subTasks": [
+            {
+              "name": "Does linting pass?",
+              "status": "y",
+              "time": "2022-11-28 23:32"
+            },
+            {
+              "name": "Do specs pass?",
+              "status": "y",
+              "time": "2022-11-28 23:32"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

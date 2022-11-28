@@ -3,7 +3,7 @@
 require_relative '../lib/check_list'
 
 RSpec.describe CheckList::Start do
-  let(:start){ described_class }
+  subject(:start){ described_class }
 
   describe '.new' do
     before do
@@ -37,16 +37,5 @@ RSpec.describe CheckList::Start do
       allow(CheckList::List).to receive(:new).and_return('new_list')
     end
 
-    it 'handles a nil method selection' do
-      allow_any_instance_of(start).to receive(:set_options).and_return({ :list => nil })
-      s = start.new
-      expect(s.handler).to eq 'new_menu'
-    end
-
-    it 'handles a not_nil method selection' do
-      allow_any_instance_of(start).to receive(:set_options).and_return({ :list => 'not_nil' })
-      s = start.new
-      expect(s.handler).to eq 'new_list'
-    end
   end
 end

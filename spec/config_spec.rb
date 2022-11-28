@@ -9,6 +9,7 @@ RSpec.describe CheckList::Config do
   it { expect(config.version).to eq '0.0.0' }
   it { expect(config.default_url).to eq 'https://raw.githubusercontent.com/swaff-y/check-list/main/lib/checklist.json' }
   it { expect(config.env).to eq 'CHECK_LIST' }
+  it { expect(config.coverage).to eq 90 }
 
   it 'gets the current time' do
     allow(Time).to receive(:now).and_return(time)

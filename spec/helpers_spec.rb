@@ -28,4 +28,16 @@ RSpec.describe CheckList::Helpers do
       before { allow(described_class).to receive(:`).and_return('test_dir') }
       it { is_expected.to eq('test_dir') } 
   end
+
+  context '.colors' do
+    it { expect(described_class.bg_red).to eq "\x1b[41m"}
+    it { expect(described_class.bg_green).to eq "\x1b[42m"}
+    it { expect(described_class.bg_yellow).to eq  "\x1b[43m"}
+    it { expect(described_class.bg_white).to eq "\x1b[47m"}
+
+    it { expect(described_class.red).to eq "\x1b[31m"}
+    it { expect(described_class.green).to eq "\x1b[32m"}
+    it { expect(described_class.yellow).to eq  "\x1b[33m"}
+    it { expect(described_class.white).to eq "\x1b[37m"}
+  end
 end

@@ -8,6 +8,10 @@ module CheckList
     class InvalidListError < StandardError
     end
 
+    # options errors
+    class InvalidOptionError < StandardError
+    end
+
     # Coverage errors
     class CoverageError < StandardError
       def initialize

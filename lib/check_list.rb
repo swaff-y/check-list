@@ -6,7 +6,10 @@ require_relative 'list'
 require_relative 'view'
 require_relative 'config'
 require_relative 'handle_file'
+require_relative 'exceptions'
+require_relative 'helpers'
 
+# Check-list application
 module CheckList
   # The start method for check-list
   class Start
@@ -34,6 +37,7 @@ module CheckList
         opt :list, 'checklist name', :type => :string # flag --list, default false
         opt :ref, 'Reference', :type => :string # flag --ref, default false
         opt :view, 'View browser list'
+        opt :update, 'Update list'
       end
     end
     # rubocop: enable Layout/HeredocIndentation
@@ -41,10 +45,47 @@ module CheckList
     # rubocop: enable Metrics/MethodLength
 
     def handler
-      return CheckList::View.new if @opts[:view]
-      return CheckList::Menu.new(@filepath, @opts) if @opts[:list].nil?
-
-      CheckList::List.new(@filepath)
+      if @opts[:update_given]
+        update
+      elsif @opts[:view_given]
+        view
+      else
+        CheckList::Menu.new(@filepath, @opts)
+      end
+    rescue CheckList::Exceptions::InvalidOptionError
+        CheckList::Helpers.log 'Invalid list options'
     end
+  end
+
+  def update
+    return update_ref if @opts[:update_given] && @opts[:ref_given]
+
+    return update_list if @opts[:update_given]
+
+    raise CheckList::Exceptions::InvalidOptionError
+  end
+
+  def update_ref
+    puts 'update ref'
+  end
+
+  def update_list
+    puts 'update list'
+  end
+
+  def view
+    return view_ref if @opts[:list_given] && @opts[:ref_given]
+
+    return view_list if @opts[:list_given]
+
+    raise CheckList::Exceptions::InvalidOptionError
+  end
+
+  def view_ref
+    puts 'view ref'
+  end
+
+  def view_list
+    puts 'view list'
   end
 end

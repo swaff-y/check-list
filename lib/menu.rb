@@ -64,7 +64,10 @@ module CheckList
             task = @list['tasks'][@task_idx]
             sub_tasks = @list['tasks'][@task_idx]['subTasks']
 
-            CheckList::Helpers.log "  #{@sub_task_idx + 1}. #{sub_tasks[@sub_task_idx]['name']} y/n/na"
+            # rubocop: disable Layout/LineLength
+            CheckList::Helpers.log "  #{@sub_task_idx + 1}. #{sub_tasks[@sub_task_idx]['name']} #{CheckList::Helpers.green}y#{CheckList::Helpers.white}/#{CheckList::Helpers.red}n#{CheckList::Helpers.white}/#{CheckList::Helpers.yellow}na#{CheckList::Helpers.white}"
+            # rubocop: enable Layout/LineLength
+
             @sub_task_idx += 1
             value = CheckList::Validations.validate_response(CheckList::Helpers.ret_value)
             return good_bye if value == 'q'

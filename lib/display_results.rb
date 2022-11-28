@@ -13,7 +13,7 @@ module CheckList
 
     # rubocop:disable Metrics/MethodLength
     def display_results
-      CheckList::Helpers.log "#{@results[:name]} Checklist -> #{@results[:ref]}"
+      CheckList::Helpers.log "#{@results[:name]} Checklist: #{@results[:ref]}"
       CheckList::Helpers.log ''
       @results[:tasks].each_with_index do |task, index|
         CheckList::Helpers.log "#{CheckList::Helpers.white}  #{index + 1}. #{task[:name]}"

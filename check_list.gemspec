@@ -5,7 +5,7 @@ require_relative './lib/config'
 Gem::Specification.new do |s|
   s.name        = 'check_list'
   s.version     = CheckList::Config.version
-  s.summary     = ''
+  s.summary     = 'A'
   s.description = 'A cli checklist'
   s.authors     = ['Kyle Swaffield']
   s.email       = 'kyle@swaff.iu.au'

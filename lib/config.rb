@@ -15,6 +15,10 @@ module CheckList
       'CHECK_LIST'
     end
 
+    def self.coverage
+      95
+    end
+
     def self.time_now
       t = Time.now
       year = t.year
@@ -23,6 +27,17 @@ module CheckList
       hr = t.hour.to_s.rjust(2, '0')
       min = t.min.to_s.rjust(2, '0')
       "#{year}-#{month}-#{day} #{hr}:#{min}"
+    end
+
+    def self.path
+      ret_path = nil
+      $LOAD_PATH.each do |path|
+        if path.match(/check_list-/)
+          ret_path = path
+          break
+        end
+      end
+      ret_path
     end
   end
 end

@@ -3,6 +3,7 @@
 require 'optimist'
 require_relative 'menu'
 require_relative 'list'
+require_relative 'view'
 require_relative 'config'
 require_relative 'handle_file'
 
@@ -32,6 +33,7 @@ module CheckList
         EOS
         opt :list, 'checklist name', :type => :string # flag --list, default false
         opt :ref, 'Reference', :type => :string # flag --ref, default false
+        opt :view, 'View browser list'
       end
     end
     # rubocop: enable Layout/HeredocIndentation
@@ -39,6 +41,7 @@ module CheckList
     # rubocop: enable Metrics/MethodLength
 
     def handler
+      return CheckList::View.new if @opts[:view]
       return CheckList::Menu.new(@filepath, @opts) if @opts[:list].nil?
 
       CheckList::List.new(@filepath)

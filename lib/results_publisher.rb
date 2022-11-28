@@ -33,16 +33,16 @@ module CheckList
     end
 
     def move_build_to_checklist
-      $LOAD_PATH.each_with_index do |path, index|
+      $LOAD_PATH.each do |path|
         if path.match(/check_list-/)
           @path = path
           break
         end
       end
-      
-      unless @path.nil?
-        CheckList::Helpers.system_cmd "cp -r #{@path}/build ./checklist/"
-      end
+
+      return if @path.nil?
+
+      CheckList::Helpers.system_cmd "cp -r #{@path}/build ./checklist/"
     end
 
     def create_checklist_folder

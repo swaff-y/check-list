@@ -6,84 +6,84 @@
       "tasks": [
         {
           "name": "read requirements",
-          "status": "n",
-          "time": "2022-11-28 17:19",
+          "status": "y",
+          "time": "2022-11-28 17:24",
           "subTasks": [
             {
               "name": "Are they reasonable?",
-              "status": "y",
-              "time": "2022-11-28 17:18"
+              "status": "na",
+              "time": "2022-11-28 17:23"
             },
             {
               "name": "Can they be met?",
-              "status": "n",
-              "time": "2022-11-28 17:18"
+              "status": "y",
+              "time": "2022-11-28 17:23"
             }
           ]
         },
         {
           "name": "Prep Environment",
-          "status": "n",
-          "time": "2022-11-28 17:19",
+          "status": "y",
+          "time": "2022-11-28 17:24",
           "subTasks": [
             {
               "name": "Do you have all the credentials?",
               "status": "na",
-              "time": "2022-11-28 17:18"
+              "time": "2022-11-28 17:23"
             },
             {
               "name": "Can you run the current version end-to-end?",
               "status": "y",
-              "time": "2022-11-28 17:18"
+              "time": "2022-11-28 17:23"
             },
             {
               "name": "Does the debugger work?",
-              "status": "n",
-              "time": "2022-11-28 17:18"
+              "status": "na",
+              "time": "2022-11-28 17:23"
             }
           ]
         },
         {
           "name": "Start Development",
           "status": "n",
-          "time": "2022-11-28 17:19",
+          "time": "2022-11-28 17:24",
           "subTasks": [
             {
               "name": "Write Code",
               "status": "n",
-              "time": "2022-11-28 17:18"
+              "time": "2022-11-28 17:23"
             },
             {
               "name": "Write Specs",
-              "status": "na",
-              "time": "2022-11-28 17:18"
+              "status": "n",
+              "time": "2022-11-28 17:23"
             },
             {
               "name": "Update documentation",
-              "status": "na",
-              "time": "2022-11-28 17:18"
+              "status": "n",
+              "time": "2022-11-28 17:23"
             },
             {
               "name": "Prepare code for testing",
-              "status": "na",
-              "time": "2022-11-28 17:18"
+              "status": "n",
+              "time": "2022-11-28 17:24"
             }
           ]
         },
         {
           "name": "Run Specs",
-          "status": "y",
-          "time": "2022-11-28 17:19",
+          "status": "n",
+          "time": "2022-11-28 17:24",
           "subTasks": [
             {
               "name": "Does linting pass?",
-              "status": "y",
-              "time": "2022-11-28 17:18"
+              "status": "n",
+              "time": "2022-11-28 17:24"
             },
             {
               "name": "Do specs pass?",
-              "status": "y",
-              "time": "2022-11-28 17:19"
+              "status": "n",
+              "time": "2022-11-28 17:24"
             }
           ]
         }

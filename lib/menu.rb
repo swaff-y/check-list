@@ -64,9 +64,7 @@ module CheckList
             task = @list['tasks'][@task_idx]
             sub_tasks = @list['tasks'][@task_idx]['subTasks']
 
-            # rubocop: disable Layout/LineLength
-            CheckList::Helpers.log "  #{@sub_task_idx + 1}. #{sub_tasks[@sub_task_idx]['name']} #{CheckList::Helpers.green}y#{CheckList::Helpers.white}/#{CheckList::Helpers.red}n#{CheckList::Helpers.white}/#{CheckList::Helpers.yellow}na#{CheckList::Helpers.white}"
-            # rubocop: enable Layout/LineLength
+            CheckList::Helpers.log "  #{@sub_task_idx + 1}. #{sub_tasks[@sub_task_idx]['name']} #{y}/#{n}/#{na}"
 
             @sub_task_idx += 1
             value = CheckList::Validations.validate_response(CheckList::Helpers.ret_value)
@@ -87,6 +85,18 @@ module CheckList
             show_tasks
         end
         # rubocop:enable Metrics/MethodLength
+
+        def y
+            "#{CheckList::Helpers.green}y#{CheckList::Helpers.white}"
+        end
+
+        def n
+            "#{CheckList::Helpers.red}n#{CheckList::Helpers.white}"
+        end
+
+        def na
+            "#{CheckList::Helpers.yellow}na#{CheckList::Helpers.white}"
+        end
 
         def rec_show_sub_tasks
             show_sub_tasks

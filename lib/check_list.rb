@@ -52,40 +52,35 @@ module CheckList
       else
         CheckList::Menu.new(@filepath, @opts)
       end
-    rescue CheckList::Exceptions::InvalidOptionError
-        CheckList::Helpers.log 'Invalid list options'
     end
-  end
 
-  def update
-    return update_ref if @opts[:update_given] && @opts[:ref_given]
+    def update
+      return update_ref if @opts[:update_given] && @opts[:ref_given]
 
-    return update_list if @opts[:update_given]
+      update_list
+    end
 
-    raise CheckList::Exceptions::InvalidOptionError
-  end
+    def update_ref
+      puts 'update ref'
+    end
 
-  def update_ref
-    puts 'update ref'
-  end
+    def update_list
+      puts 'update list'
+    end
 
-  def update_list
-    puts 'update list'
-  end
+    def view
+      return view_ref if @opts[:list_given] && @opts[:ref_given]
 
-  def view
-    return view_ref if @opts[:list_given] && @opts[:ref_given]
+      view_list
+    end
 
-    return view_list if @opts[:list_given]
+    def view_ref
+      puts 'view ref'
+    end
 
-    raise CheckList::Exceptions::InvalidOptionError
-  end
-
-  def view_ref
-    puts 'view ref'
-  end
-
-  def view_list
-    puts 'view list'
+    def view_list
+      # pwd = CheckList::Helpers.system_cmd 'pwd'.chomp
+      CheckList::Helpers.system_cmd('open ./checklist/build/index.html')
+    end
   end
 end

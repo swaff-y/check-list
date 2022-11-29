@@ -52,10 +52,12 @@ module CheckList
       else
         CheckList::Menu.new(@filepath, @opts)
       end
+    rescue CheckList::Exceptions::InvalidOptionError
+      CheckList::Helpers.log 'Invalid list option selection'
     end
 
     def update
-      return update_ref if @opts[:update_given] && @opts[:ref_given]
+      return update_ref if @opts[:list_given] && @opts[:ref_given]
 
       update_list
     end

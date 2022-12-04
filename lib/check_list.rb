@@ -81,8 +81,7 @@ module CheckList
     end
 
     def view_list
-      # pwd = CheckList::Helpers.system_cmd 'pwd'.chomp
-      CheckList::Helpers.system_cmd('open ./checklist/build/index.html')
+      CheckList::View.new
     end
   end
 end

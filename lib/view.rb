@@ -13,7 +13,7 @@ module CheckList
     private
 
     def open_browser_view
-      CheckList::Helpers.system_cmd("open #{CheckList::Config.path}/build/index.html")
+      CheckList::Helpers.system_cmd('open ./checklist/index.html')
     end
   end
 end

@@ -12,7 +12,6 @@ module CheckList
       @results = results
       @checklist = CheckList::Helpers.system_cmd('ls | grep checklist')
       publish_results
-      move_build_to_checklist
     end
 
     private
@@ -38,12 +37,13 @@ module CheckList
 
       return if @path.nil?
 
-      CheckList::Helpers.system_cmd "cp -r #{@path}/build ./checklist/"
+      CheckList::Helpers.system_cmd "cp -r #{@path}/build/ ./checklist/"
     end
 
     def create_checklist_folder
       data_hash = { 'results' => [] }
       FileUtils.mkdir_p('checklist')
+      move_build_to_checklist
 
       data_hash['results'].push @results
       write_json_file(data_hash)

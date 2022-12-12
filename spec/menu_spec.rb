@@ -29,7 +29,7 @@ RSpec.describe CheckList::Menu do
   context '.show_menu' do
     before do
       allow_any_instance_of(menu).to receive(:show_tasks).and_return('show_tasks')
-      allow_any_instance_of(menu).to receive(:good_bye).and_return('good_bye')
+      allow(CheckList::Helpers).to receive(:good_bye).and_return('good_bye')
     end
 
     it 'leaves when 0' do
@@ -75,7 +75,7 @@ RSpec.describe CheckList::Menu do
   context '.show_sub_tasks' do
     before do
       allow_any_instance_of(menu).to receive(:show_menu).and_return('show_menu')
-      allow_any_instance_of(menu).to receive(:good_bye).and_return('good_bye')
+      allow(CheckList::Helpers).to receive(:good_bye).and_return('good_bye')
     end
 
     it 'returns if task index == task list length' do
@@ -124,9 +124,5 @@ RSpec.describe CheckList::Menu do
 
   context '.get_list' do
     it{ expect(subject.new(filepath, opts).get_list(1)).to eq filepath_lists['lists'][0] }
-  end
-
-  context '.good_bye' do
-    it{ expect(subject.new(filepath, opts).good_bye).to eq 'leave'}
   end
 end

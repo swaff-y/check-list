@@ -19,7 +19,7 @@ module CheckList
             @task_idx = nil
             @sub_task_idx = nil
             @results = CheckList::Results.new(@opts)
-            @json = filepath.fetch_json
+            @json = filepath.fetch_json(CheckList::Config.env)
             show_menu
         end
 
@@ -31,7 +31,7 @@ module CheckList
                 CheckList::Helpers.log "#{index + 1}. #{list['name']}"
             end
             value = CheckList::Validations.validate(CheckList::Helpers.ret_value, list_array)
-            return good_bye if !value || value.zero?
+            return CheckList::Helpers.good_bye if !value || value.zero?
 
             @list = get_list(value) unless value.nil?
             return show_tasks unless @list.nil?
@@ -68,7 +68,7 @@ module CheckList
 
             @sub_task_idx += 1
             value = CheckList::Validations.validate_response(CheckList::Helpers.ret_value)
-            return good_bye if value == 'q'
+            return CheckList::Helpers.good_bye if value == 'q'
 
             # rubocop: disable Style/NumericPredicate
             if value == 0
@@ -104,12 +104,6 @@ module CheckList
 
         def get_list(value)
             @json['lists'][value - 1]
-        end
-
-        def good_bye
-            CheckList::Helpers.clear
-            CheckList::Helpers.log 'Good Bye'
-            CheckList::Helpers.leave
         end
     end
 end

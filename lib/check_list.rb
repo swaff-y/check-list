@@ -8,6 +8,7 @@ require_relative 'config'
 require_relative 'handle_file'
 require_relative 'exceptions'
 require_relative 'helpers'
+require_relative 'update'
 
 # Check-list application
 module CheckList
@@ -57,17 +58,18 @@ module CheckList
     end
 
     def update
+      @update = CheckList::Update.new(@opts, @filepath)
       return update_ref if @opts[:list_given] && @opts[:ref_given]
 
       update_list
     end
 
     def update_ref
-      puts 'update ref'
+      @update.show_list
     end
 
     def update_list
-      puts 'update list'
+      @update.show_lists
     end
 
     def view

@@ -67,6 +67,10 @@ RSpec.describe CheckList::Start do
   end
 
   describe '.update' do
+    before do
+      allow(CheckList::Update).to receive(:new).and_return('update')
+    end
+
     it 'returns update ref' do
       allow(CheckList::HandleFile).to receive(:new).and_return('filepath')
       allow(Optimist).to receive(:options).and_return(update_ref_given)

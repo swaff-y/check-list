@@ -19,14 +19,16 @@ module CheckList
       @default_file = nil
     end
 
-    def fetch_json
-      JSON.parse(File.read(ENV.fetch(CheckList::Config.env)))
-    rescue StandardError
-      if @default_file.nil?
-        CheckList::Helpers.log 'Invalid file'
-        CheckList::Helpers.leave
-      else
+    def fetch_json(env_key)
+      url = './checklist/data.json'
+      url = ENV.fetch(env_key) if CheckList::Config.env == env_key
+      JSON.parse(File.read(url))
+    rescue StandardError => e
+      if env_key == CheckList::Config.env && !@default_file.nil?
         JSON.parse(@default_file.body)
+      else
+        CheckList::Helpers.log "Invalid file: #{e}"
+        CheckList::Helpers.leave
       end
     end
   end

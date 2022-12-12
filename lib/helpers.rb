@@ -3,6 +3,12 @@
 module CheckList
   # Class to build the selection menu
   class Helpers
+    def self.good_bye
+      CheckList::Helpers.clear
+      CheckList::Helpers.log 'Good Bye'
+      CheckList::Helpers.leave
+    end
+
     def self.clear
       system 'clear'
     end

@@ -48,14 +48,14 @@ RSpec.describe CheckList::HandleFile do
 
     it 'returns the correct json' do
       f = file_handler.new
-      expect(f.fetch_json).to eq 'json'
+      expect(f.fetch_json('env')).to eq 'json'
     end
 
     it 'returns nil if error occurs' do
       allow(ENV).to receive(:fetch).and_raise StandardError
       f = file_handler.new
       f.instance_variable_set(:@default_file, nil)
-      expect(f.fetch_json).to eq 'leave'
+      expect(f.fetch_json('env')).to eq 'leave'
     end
   end
 end

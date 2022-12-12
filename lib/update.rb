@@ -20,7 +20,7 @@ module CheckList
 
       value = validate_ret_value(CheckList::Helpers.ret_value, @json['results'])
 
-      return show_list unless value.zero?
+      return show_list(value) unless value.zero?
 
       CheckList::Helpers.clear
       show_lists
@@ -38,9 +38,17 @@ module CheckList
       0
     end
 
-    def show_list
+    def show_list(value)
       CheckList::Helpers.clear
-      CheckList::Helpers.log 'List'
+      name = @json['results'][value - 1]['name']
+      ref = @json['results'][value - 1]['ref']
+      CheckList::Helpers.log "List: #{name} #{ref}"
+      @json['results'][value - 1]['tasks'].each_with_index do |task, index|
+        CheckList::Helpers.log "#{index + 1}. #{task['name']} status:#{task['status']}"
+      end
+    rescue StandardError => e
+      CheckList::Helpers.log "Error: #{e}"
+      CheckList::Helpers.leave
     end
   end
 end

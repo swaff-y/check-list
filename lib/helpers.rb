@@ -9,6 +9,17 @@ module CheckList
       CheckList::Helpers.leave
     end
 
+    def self.check_status(status)
+      case status.downcase
+      when 'y'
+        "#{CheckList::Helpers.green}Complete#{CheckList::Helpers.white}"
+      when 'n'
+        "#{CheckList::Helpers.red}Not Complete#{CheckList::Helpers.white}"
+      when 'na'
+        "#{CheckList::Helpers.yellow}Not Applicable#{CheckList::Helpers.white}"
+      end
+    end
+
     def self.clear
       system 'clear'
     end

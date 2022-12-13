@@ -4,19 +4,19 @@ module CheckList
   # Class to build the selection menu
   class Helpers
     def self.good_bye
-      CheckList::Helpers.clear
-      CheckList::Helpers.log 'Good Bye'
-      CheckList::Helpers.leave
+      clear
+      log 'Good Bye'
+      leave
     end
 
     def self.check_status(status)
       case status.downcase
       when 'y'
-        "#{CheckList::Helpers.green}Complete#{CheckList::Helpers.white}"
+        "#{green}Complete#{white}"
       when 'n'
-        "#{CheckList::Helpers.red}Not Complete#{CheckList::Helpers.white}"
+        "#{red}Not Complete#{white}"
       when 'na'
-        "#{CheckList::Helpers.yellow}Not Applicable#{CheckList::Helpers.white}"
+        "#{yellow}Not Applicable#{white}"
       end
     end
 

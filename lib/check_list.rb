@@ -65,11 +65,11 @@ module CheckList
     end
 
     def update_ref
-      @update.show_list
+      @update.show_list('', nil)
     end
 
     def update_list
-      @update.show_lists
+      @update.show_lists(nil)
     end
 
     def view

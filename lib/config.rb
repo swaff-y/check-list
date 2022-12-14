@@ -16,7 +16,7 @@ module CheckList
     end
 
     def self.coverage
-      90
+      85
     end
 
     def self.time_now

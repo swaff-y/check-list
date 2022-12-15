@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require_relative 'helpers'
+require_relative 'config'
+require_relative 'display_results'
 
 module CheckList
   # Class to handle updates
@@ -12,7 +14,6 @@ module CheckList
       @json = filepath.fetch_json('CHECKLIST')
     end
 
-    # rubocop:disable Metrics/MethodLength
     def show_lists(type)
       HELP.clear if type.is_a? String
       HELP.log 'Edit Cancelled' if type.is_a? String
@@ -20,7 +21,7 @@ module CheckList
       HELP.log ''
 
       @json['results'].each_with_index do |list, index|
-        HELP.log "#{index + 1}. #{list['name']}"
+        HELP.log "#{index + 1}. #{list['name']} (#{list['ref']})"
       end
 
       value = validate_ret_value(HELP.ret_value, @json['results'])
@@ -28,9 +29,8 @@ module CheckList
       return show_list(value, nil) unless value.zero?
 
       HELP.clear
-      show_lists
+      show_lists(type)
     end
-    # rubocop:enable Metrics/MethodLength
 
     def validate_ret_value(value, arr)
       val = arr.length
@@ -44,7 +44,6 @@ module CheckList
       0
     end
 
-    # rubocop:disable Metrics/MethodLength
     def show_list(value, type)
       HELP.clear
       HELP.log 'Invalid selection' if type.is_a? String
@@ -64,10 +63,7 @@ module CheckList
       HELP.log "Error: #{e}"
       HELP.leave
     end
-    # rubocop:enable Metrics/MethodLength
 
-    # rubocop:disable Metrics/MethodLength
-    # rubocop:disable Metrics/CyclomaticComplexity
     def edit(orig_value)
       value = HELP.ret_value
 
@@ -87,27 +83,22 @@ module CheckList
       end
       show_list(orig_value, 'yes')
     end
-    # rubocop:enable Metrics/MethodLength
-    # rubocop:enable Metrics/CyclomaticComplexity
 
-    # rubocop:disable Metrics/MethodLength
     def show_sub_tasks(task_idx, orig_value)
       HELP.clear
       task = @list['tasks'][task_idx - 1]
       HELP.log task['name']
       task['subTasks'].each_with_index do |tsk, idx|
-        HELP.log "  #{idx + 1}. #{tsk['name']}"
+        HELP.log "  #{idx + 1}. #{tsk['name']} (status: #{HELP.check_status(tsk['status'])})"
       end
       sub_task_idx = HELP.ret_value
       return show_list(orig_value, 'yes') if sub_task_idx.to_i.zero?
 
       edit_sub_task(task_idx, sub_task_idx.to_i, orig_value)
-    rescue StandardError
-      show_list(orig_value, 'yes')
+    # rescue StandardError
+    #   show_list(orig_value, 'yes')
     end
-    # rubocop:enable Metrics/MethodLength
 
-    # rubocop:disable Metrics/MethodLength
     def edit_sub_task(task_idx, sub_task_idx, orig_value)
       HELP.clear
       task = @list['tasks'][task_idx - 1]
@@ -122,10 +113,31 @@ module CheckList
       na = "#{HELP.yellow}na#{HELP.white}"
       HELP.log "Status: (#{yes}/#{no}/#{na})" if verify_edit(value)
       value = HELP.ret_value
-    rescue StandardError
-      show_list(orig_value, 'yes')
+      update_results(value, orig_value, task_idx, sub_task_idx)
+    # rescue StandardError
+    #   show_list(orig_value, 'yes')
     end
-    # rubocop:enable Metrics/MethodLength
+
+    def update_results(value, orig_value, task_idx, sub_task_idx)
+      list = @json['results'][orig_value - 1]
+      task = list['tasks'][task_idx - 1]
+      subtask = task['subTasks'][sub_task_idx - 1]
+      subtasks = task['subTasks']
+      subtask['status'] = value
+      subtask['time'] = CheckList::Config.time_now
+
+      task['status'] = 'y'
+      task['time'] = CheckList::Config.time_now
+      subtasks.each do |tsk|
+        if tsk['status'] == 'n'
+          task['status'] = 'n'
+          break
+        end
+      end
+
+      HELP.write_json_file(@json)
+      CheckList::DisplayResults.new(list.transform_keys!(&:to_sym))
+    end
 
     def verify_edit(value)
       return show_lists('yes') unless value.downcase == 'yes'

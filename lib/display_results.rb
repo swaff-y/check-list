@@ -11,8 +11,8 @@ module CheckList
 
     private
 
-    # rubocop:disable Metrics/MethodLength
     def display_results
+      puts @results
       CheckList::Helpers.log "#{@results[:name]} Checklist: #{@results[:ref]}"
       CheckList::Helpers.log ''
       @results[:tasks].each_with_index do |task, index|
@@ -30,14 +30,12 @@ module CheckList
             color = CheckList::Helpers.yellow
             mark = '(*)'
           end
-          # rubocop:disable Layout/LineLength
+
           CheckList::Helpers.log "#{color}    #{idx + 1}. #{sub_task[:name]}#{CheckList::Helpers.white} #{mark} #{sub_task[:time]}"
-          # rubocop:enable Layout/LineLength
         end
       end
       CheckList::Helpers.log ''
       CheckList::Helpers.log "To view results in your browser use 'check-list --view'"
     end
-    # rubocop:enable Metrics/MethodLength
   end
 end

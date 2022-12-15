@@ -28,7 +28,7 @@ module CheckList
       end
 
       data_hash['results'].push @results
-      write_json_file(data_hash)
+      CheckList::Helpers.write_json_file(data_hash)
       data_hash
     end
 
@@ -46,12 +46,8 @@ module CheckList
       move_build_to_checklist
 
       data_hash['results'].push @results
-      write_json_file(data_hash)
+      CheckList::Helpers.write_json_file(data_hash)
       data_hash
-    end
-
-    def write_json_file(data_hash)
-      File.write('./checklist/data.json', JSON.pretty_generate(data_hash))
     end
   end
 end

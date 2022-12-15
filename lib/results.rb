@@ -46,7 +46,6 @@ module CheckList
         @results_array.push result
     end
 
-    # rubocop:disable Metrics/MethodLength
     def process_results
       CheckList::Helpers.clear
 
@@ -65,11 +64,9 @@ module CheckList
           CheckList::Helpers.leave
       end
     end
-    # rubocop:enable Metrics/MethodLength
 
     private
 
-    # rubocop:disable Metrics/MethodLength
     def update_tasks
         @results[:tasks].each_with_index do |result, index|
             status = 'n'
@@ -85,7 +82,6 @@ module CheckList
             @results[:tasks][index][:time] = CheckList::Config.time_now
         end
     end
-    # rubocop:enable Metrics/MethodLength
 
     def add_sub_tasks
         @results_array.each do |result|
@@ -98,7 +94,6 @@ module CheckList
         end
     end
 
-    # rubocop:disable Metrics/MethodLength
     def create_tasks
         @results[:tasks] = []
         @results_array.each do |result|
@@ -114,7 +109,6 @@ module CheckList
             end
         end
     end
-    # rubocop:enable Metrics/MethodLength
 
     def create_results_list
         @results[:name] = nil

@@ -51,7 +51,6 @@ module CheckList
             show_sub_tasks
         end
 
-        # rubocop:disable Metrics/MethodLength
         def show_sub_tasks
             # This gaurd clause is neccecary to protect an incorrect value being entered.
             # This causes an extra recrsive call to show_sub_tasks
@@ -70,12 +69,12 @@ module CheckList
             value = CheckList::Validations.validate_response(CheckList::Helpers.ret_value)
             return CheckList::Helpers.good_bye if value == 'q'
 
-            # rubocop: disable Style/NumericPredicate
+            # rubocop:disable Style/NumericPredicate:
             if value == 0
                 @sub_task_idx -= 1
                 return rec_show_sub_tasks
             end
-            # rubocop: enable Style/NumericPredicate
+            # rubocop:enable Style/NumericPredicate:
 
             @results.process_value(@list, value, task, sub_tasks[@sub_task_idx - 1])
             return rec_show_sub_tasks if @sub_task_idx < sub_tasks.length
@@ -84,7 +83,6 @@ module CheckList
             @task_idx += 1
             show_tasks
         end
-        # rubocop:enable Metrics/MethodLength
 
         def y
             "#{CheckList::Helpers.green}y#{CheckList::Helpers.white}"

@@ -13,7 +13,6 @@ module CheckList
       nil
     end
 
-    # rubocop:disable Metrics/MethodLength
     def self.validate_response(value)
         case value
         when 'y'
@@ -28,6 +27,5 @@ module CheckList
             0
         end
     end
-    # rubocop:enable Metrics/MethodLength
   end
 end

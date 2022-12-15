@@ -40,6 +40,10 @@ module CheckList
       `#{cmd}`
     end
 
+    def self.write_json_file(data_hash)
+      File.write('./checklist/data.json', JSON.pretty_generate(data_hash))
+    end
+
     def self.bg_red
       "\x1b[41m"
     end

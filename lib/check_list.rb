@@ -24,7 +24,6 @@ module CheckList
 
     # rubocop: disable Layout/HeredocIndentation
     # rubocop: disable Naming/HeredocDelimiterNaming
-    # rubocop: disable Metrics/MethodLength
     def set_options
       Optimist.options do
         version "check-list #{CheckList::Config.version} (c) 2022 Kyle Swaffield"
@@ -43,7 +42,6 @@ module CheckList
     end
     # rubocop: enable Layout/HeredocIndentation
     # rubocop: enable Naming/HeredocDelimiterNaming
-    # rubocop: enable Metrics/MethodLength
 
     def handler
       if @opts[:update_given]

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'exceptions'
+
 # creates a symbolized hash
 class Sym
   attr_reader :hash
@@ -10,6 +12,8 @@ class Sym
   end
 
   def process_hash(hash)
+    raise CheckList::Exceptions::NotAHash, 'Please pass a valid hash' unless hash.is_a? Hash
+
     hash.transform_keys!(&:to_sym)
     keys = hash.keys
     new_hash = {}

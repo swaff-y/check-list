@@ -12,6 +12,10 @@ module CheckList
     class InvalidOptionError < StandardError
     end
 
+    # options errors
+    class NotAHash < StandardError
+    end
+
     # Coverage errors
     class CoverageError < StandardError
       def initialize

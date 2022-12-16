@@ -4,6 +4,37 @@ require_relative '../lib/helpers'
 
 RSpec.describe CheckList::Helpers do
   let(:helper) { described_class }
+
+  context '.write_json_file' do
+    before do
+      allow(JSON).to receive(:pretty_generate).and_return('generate')
+      allow(File).to receive(:write).and_return('write')
+    end
+
+    it { expect(helper.write_json_file({:string => 'a string' })).to eq 'write' }
+  end
+
+  context '.check_status' do
+    before do
+      allow(helper).to receive(:green).and_return('')
+      allow(helper).to receive(:red).and_return('')
+      allow(helper).to receive(:yellow).and_return('')
+      allow(helper).to receive(:white).and_return('')
+    end
+
+    it 'returns complete if status is y' do
+      expect(helper.check_status('y')).to eq 'Complete'
+    end 
+
+    it 'returns complete if status is n' do
+      expect(helper.check_status('n')).to eq 'Not Complete'
+    end 
+
+    it 'returns complete if status is na' do
+      expect(helper.check_status('na')).to eq 'Not Applicable'
+    end 
+  end
+
   context '.log' do
     it 'logs the correct value' do
       expect { helper.log('value') }.to output("value\n").to_stdout

@@ -75,25 +75,5 @@ module CheckList
     def self.white
       "\x1b[37m"
     end
-
-    def self.symbolize(hash)
-      hash.transform_keys!(&:to_sym)
-      keys = hash.keys
-      new_hash = {}
-
-      keys.each do |key|
-        new_hash[key] = hash[key] unless hash[key].is_a? Array
-
-        if hash[key].is_a? Array
-          new_array = []
-          hash[key].each do |item|
-            item.transform_keys!(&:to_sym)
-            new_array.push item
-          end
-          new_hash[key] = new_array
-        end
-      end
-      new_hash
-    end
   end
 end

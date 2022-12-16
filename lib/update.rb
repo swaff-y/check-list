@@ -3,6 +3,7 @@
 require_relative 'helpers'
 require_relative 'config'
 require_relative 'display_results'
+require_relative 'symbolize'
 
 module CheckList
   # Class to handle updates
@@ -95,8 +96,8 @@ module CheckList
       return show_list(orig_value, 'yes') if sub_task_idx.to_i.zero?
 
       edit_sub_task(task_idx, sub_task_idx.to_i, orig_value)
-    # rescue StandardError
-    #   show_list(orig_value, 'yes')
+    rescue StandardError
+      show_list(orig_value, 'yes')
     end
 
     def edit_sub_task(task_idx, sub_task_idx, orig_value)
@@ -114,8 +115,8 @@ module CheckList
       HELP.log "Status: (#{yes}/#{no}/#{na})" if verify_edit(value)
       value = HELP.ret_value
       update_results(value, orig_value, task_idx, sub_task_idx)
-    # rescue StandardError
-    #   show_list(orig_value, 'yes')
+    rescue StandardError
+      show_list(orig_value, 'yes')
     end
 
     def update_results(value, orig_value, task_idx, sub_task_idx)
@@ -136,7 +137,8 @@ module CheckList
       end
 
       HELP.write_json_file(@json)
-      CheckList::DisplayResults.new(list.transform_keys!(&:to_sym))
+      list = Sym.new(list).hash
+      CheckList::DisplayResults.new(list)
     end
 
     def verify_edit(value)

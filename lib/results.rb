@@ -79,6 +79,7 @@ module CheckList
                 end
             end
             @results[:tasks][index][:status] = status
+            @results[:tasks][index][:user] = ENV.fetch('USER')
             @results[:tasks][index][:time] = CheckList::Config.time_now
         end
     end
@@ -89,7 +90,7 @@ module CheckList
                 e[:name] == result[:task]
             end
 
-            res_hash = { name: result[:subTask], status: result[:value], time: result[:timestamp] }
+            res_hash = { name: result[:subTask], status: result[:value], time: result[:timestamp], user: ENV.fetch('USER') }
             @results[:tasks][task][:subTasks].push res_hash
         end
     end

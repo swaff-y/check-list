@@ -41,6 +41,22 @@ RSpec.describe CheckList::Update do
     ]
   } }
   let(:filepath) { instance_double(CheckList::HandleFile, :fetch_json => json) }
+  let(:list) { { 
+    'tasks' => [ 
+      { 
+        'name' => 'name', 
+        'subTasks' => [ 
+          { 
+            'name' => 'name', 
+            'status' => 'y' 
+          } 
+        ] 
+      } 
+    ] 
+  } }
+  let(:sym) {
+    double('sym', hash: 'A hash')
+  }
 
   before do 
     allow(CheckList::Helpers).to receive(:clear).and_return('clear')
@@ -52,6 +68,9 @@ RSpec.describe CheckList::Update do
     allow(CheckList::Helpers).to receive(:red).and_return('')
     allow(CheckList::Helpers).to receive(:yellow).and_return('')
     allow(CheckList::Helpers).to receive(:white).and_return('')
+    allow(CheckList::Helpers).to receive(:check_status).and_return('check_status')
+    allow(CheckList::Helpers).to receive(:write_json_file).and_return('write_file')
+    allow(Sym).to receive(:new).and_return('write_file')
     allow(CheckList::Config).to receive(:time_now).and_return('')
     allow(CheckList::DisplayResults).to receive(:new).and_return('display_results')
     allow_any_instance_of(CheckList::HandleFile).to receive(:fetch_json).and_return(json)
@@ -118,6 +137,54 @@ RSpec.describe CheckList::Update do
       allow(CheckList::Helpers).to receive(:ret_value).and_return('y')
       allow_any_instance_of(update).to receive(:show_list).and_return('show_list')
       expect(update.new('opts', filepath).edit('orig_value')).to eq 'show_list'
+    end
+  end
+
+  context '.show_sub_tasks' do
+    it 'shows sub tasks' do
+      allow_any_instance_of(update).to receive(:edit_sub_task).and_return('edit_sub_task')
+      allow_any_instance_of(update).to receive(:show_list).and_return('show_list')
+      s = update.new('opts', filepath)
+      s.instance_variable_set(:@list, list)
+      expect(s.show_sub_tasks(1, 'orig_value')).to eq 'edit_sub_task'
+    end
+  end
+
+  context '.edit_sub_task' do
+    it 'edits a sub task' do
+      allow_any_instance_of(update).to receive(:update_results).and_return('update_results')
+      allow_any_instance_of(update).to receive(:verify_edit).and_return('verify_edit')
+      s = update.new('opts', filepath)
+      s.instance_variable_set(:@list, list)
+      expect(s.edit_sub_task(1, 1, 'orig_value')).to eq 'update_results'
+    end
+  end
+
+  context '.update_results' do
+    it 'edits a sub task' do
+      s = update.new('opts', filepath)
+      s.instance_variable_set(:@list, list)
+      expect(s.update_results('y', 1, 1, 1)).to eq 'display_results'
+    end
+
+    it 'edits a sub task' do
+      s = update.new('opts', filepath)
+      s.instance_variable_set(:@list, list)
+      expect(s.update_results('n', 1, 1, 1)).to eq 'display_results'
+    end
+  end
+
+  context '.verify_edit' do
+    it 'verifies an edit' do
+      allow_any_instance_of(update).to receive(:show_lists).and_return('show_lists')
+      s = update.new('opts', filepath)
+      expect(s.verify_edit('no')).to eq 'show_lists'
+    end
+
+    it 'verifies an edit' do
+      allow_any_instance_of(update).to receive(:show_lists).and_return('show_lists')
+      s = update.new('opts', filepath)
+      expect(s.verify_edit('yes')).to eq true
     end
   end
 end

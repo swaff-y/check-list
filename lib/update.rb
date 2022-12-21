@@ -33,11 +33,17 @@ module CheckList
       show_lists(type)
     end
 
+    def check_for_q(value)
+      return HELP.good_bye if value.downcase == 'q'
+
+      value
+    end
+
     def validate_ret_value(value, arr)
       val = arr.length
       return value.to_i if !value.to_i.zero? && value.to_i <= val
 
-      return HELP.good_bye if value == 'q'
+      return check_for_q(value) if value == 'q'
 
       0
     rescue StandardError
@@ -66,7 +72,7 @@ module CheckList
     end
 
     def edit(orig_value)
-      value = HELP.ret_value
+      value = check_for_q(HELP.ret_value)
 
       val_arr = nil
       val_arr = value.split(',', -1) if value.match(/^[-,0-9]+$/)
@@ -92,7 +98,7 @@ module CheckList
       task['subTasks'].each_with_index do |tsk, idx|
         HELP.log "  #{idx + 1}. #{tsk['name']} (status: #{HELP.check_status(tsk['status'])})"
       end
-      sub_task_idx = HELP.ret_value
+      sub_task_idx = check_for_q(HELP.ret_value)
       return show_list(orig_value, 'yes') if sub_task_idx.to_i.zero?
 
       edit_sub_task(task_idx, sub_task_idx.to_i, orig_value)
@@ -108,12 +114,12 @@ module CheckList
       HELP.log "#{sub_task['name']} (status: #{HELP.check_status(sub_task['status'])})"
       HELP.log "Change: (#{HELP.green}yes#{HELP.white}/#{HELP.red}no#{HELP.white})"
 
-      value = HELP.ret_value
+      value = check_for_q(HELP.ret_value)
       yes = "#{HELP.green}y#{HELP.white}"
       no = "#{HELP.red}n#{HELP.white}"
       na = "#{HELP.yellow}na#{HELP.white}"
       HELP.log "Status: (#{yes}/#{no}/#{na})" if verify_edit(value)
-      value = HELP.ret_value
+      value = check_for_q(HELP.ret_value)
       update_results(value, orig_value, task_idx, sub_task_idx)
     rescue StandardError
       show_list(orig_value, 'yes')

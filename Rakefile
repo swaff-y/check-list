@@ -16,7 +16,7 @@ RSpec::Core::RakeTask.new(:spec)
 task :bi do
   CheckList::Helpers.log CheckList::Helpers.system_cmd('gem build check_list.gemspec')
   CheckList::Helpers.log '<-------------->'
-  CheckList::Helpers.log CheckList::Helpers.system_cmd('gem install ./check_list-0.0.0.gem')
+  CheckList::Helpers.log CheckList::Helpers.system_cmd("gem install ./check_list-#{CheckList::Config.version}.gem")
 end
 
 task :coverage do

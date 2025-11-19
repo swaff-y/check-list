@@ -1,6 +1,6 @@
 # check-list
 
-Command line library for rspec
+Checklist CLI
 
 ## Installation
 `gem install check_list`
